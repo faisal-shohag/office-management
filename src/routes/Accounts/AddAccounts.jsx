@@ -25,6 +25,7 @@ const AddAccounts = () => {
     handleSubmit,
     setValue,
     // reset
+    watch
   } = useForm();
 
   /* Submit Accounts Data */
@@ -57,7 +58,6 @@ const AddAccounts = () => {
   // console.log(checkType);
   return (
     <>
-      {" "}
       <div style={{ overflow: "hidden" }}>
         <h1 className="text-2xl font-bold mb-3">Add to Account</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="border p-5 rounded">
@@ -140,6 +140,17 @@ const AddAccounts = () => {
                 {...register("date", { required: true })}
               />
             </label>
+
+            <label htmlFor="incharge" className="md:col-span-1">
+                    Added by
+                    <Input
+                      {...register("incharge")}
+                      type="text"  
+                      required                  
+                      name="incharge"
+                      placeholder="Added by "
+                    />
+                  </label>
           </div>
           <Button size="sm" className="h-8 gap-1 mt-5">
             Add Accounts

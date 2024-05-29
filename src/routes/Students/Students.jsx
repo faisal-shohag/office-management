@@ -107,7 +107,7 @@ export default function Students() {
                 <Button size="sm" className="h-8 gap-1">
                   <PlusCircle className="h-3.5 w-3.5" />
                   <Link
-                    to="/dashboard/add-students"
+                    to="/add-students"
                     className="sr-only sm:not-sr-only sm:whitespace-nowrap"
                   >
                     Add Students

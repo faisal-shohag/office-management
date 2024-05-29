@@ -21,6 +21,7 @@ import Loading from "@/components/app_components/Loading";
 import axios from "axios";
 import UploadDialog from "@/components/app_components/UploadDialog";
 import toast from "react-hot-toast";
+const api_key = import.meta.env.VITE_apiKey;
 
 const AddStuffs = () => {
   const {
@@ -48,7 +49,7 @@ const AddStuffs = () => {
     formData.append("image", renamedFile);
     try {
       const response = await axios.post(
-        "http://localhost:5000/staff_upload",
+        `${api_key}upload/staff/${filename}`,
       
         formData,
         {

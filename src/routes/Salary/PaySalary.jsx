@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 
@@ -36,7 +37,7 @@ const PaySalary = () => {
   const { admin } = useContext(AuthContext);
   const { targetRef } = usePDF();
 
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
   const [employee, setEmployee] = useState(null);
   const [isData, setIsData] = useState(false);
   const [employeeId, setEmployeeId] = useState(null);
@@ -95,6 +96,7 @@ const PaySalary = () => {
     console.log(data);
     if (employeeType == "staff") {
       data = {
+        ...data,
         monthly_salary: parseFloat(data.monthly_salary),
         bonus: parseFloat(data.bonus) ? parseFloat(data.bonus) : 0,
         staffId: employeeId,
@@ -104,7 +106,7 @@ const PaySalary = () => {
         SalaryAdd(data, "Staff")
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            
             setBtnDisabled(true);
             //loadingFunction()
             if (data.err) {
@@ -119,6 +121,7 @@ const PaySalary = () => {
       );
     } else {
       data = {
+        ...data,
         monthly_salary: parseFloat(data.monthly_salary),
         bonus: parseFloat(data.bonus) ? parseFloat(data.bonus) : 0,
         teacherId: employeeId,
@@ -242,6 +245,17 @@ const PaySalary = () => {
                       {...register("paid_date", { required: true })}
                     />
                   </label>
+
+                  <label htmlFor="incharge" className="md:col-span-1">
+                    Paid by
+                    <Input
+                      {...register("incharge")}
+                      type="text"  
+                      required                  
+                      name="incharge"
+                      placeholder="Received by"
+                    />
+                  </label>
                 </div>
                 <Button disabled={btnDisabled} size="sm" className="mt-5">
                   Submit
@@ -256,7 +270,7 @@ const PaySalary = () => {
             <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
               <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="flex flex-col items-center w-full">
-                  <img className="h-10" src={imageDataURI}></img>
+                  <img className="h-10" src='./inst_logo.webp'/>
                   {admin && (
                     <div className="mt-3 text-center">
                       {/*  <div className="font-bold text-xl">{admin.inst_name}</div> */}
@@ -321,6 +335,30 @@ const PaySalary = () => {
                   </dd>
                 </div>
               </CardContent>
+              <hr></hr>
+              <div className="flex flex-row justify-between p-5 text-center">
+                <div>
+                  <p>{watch('incharge')}</p>
+                  <Separator className="my-2" />
+                  <b>Paid By</b>
+                </div>
+                <div>
+                  <p className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</p>
+                  <Separator className="my-2" />
+                  <b>Founder</b>
+                </div>
+              </div>
+              <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 pt-2 justify-between bg-[#2b74ba] text-white">
+                <div className="text-xs">
+                  <h1>|| {admin.inst_address} || </h1>
+                </div>
+                <div className="text-xs">
+                  <h1>|| {admin.inst_email} || </h1>
+                </div>
+                <div className="text-xs ">
+                  <h1>|| {admin.inst_phone} ||</h1>
+                </div>
+              </CardFooter>
             </Card>
           </div>
         )}
@@ -401,6 +439,30 @@ const PaySalary = () => {
                   </dd>
                 </div>
               </CardContent>
+              <hr></hr>
+              <div className="flex flex-row justify-between p-5 text-center">
+                <div>
+                  <p>{watch('incharge')}</p>
+                  <Separator className="my-2" />
+                  <b>Paid By</b>
+                </div>
+                <div>
+                  <p className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</p>
+                  <Separator className="my-2" />
+                  <b>Founder</b>
+                </div>
+              </div>
+              <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 pt-2 justify-between bg-[#2b74ba] text-white">
+                <div className="text-xs">
+                  <h1>|| {admin.inst_address} || </h1>
+                </div>
+                <div className="text-xs">
+                  <h1>|| {admin.inst_email} || </h1>
+                </div>
+                <div className="text-xs ">
+                  <h1>|| {admin.inst_phone} ||</h1>
+                </div>
+              </CardFooter>
             </Card>
           </div>
         )}

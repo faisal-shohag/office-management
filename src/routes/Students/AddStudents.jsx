@@ -40,12 +40,11 @@ import { generateLetter } from "@/lib/functions";
 import { AuthContext } from "@/Providers/AuthProvider";
 import axios from "axios";
 import { CreditCard, Search } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect,  useState } from "react";
 
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import generatePDF, { Margin, usePDF } from "react-to-pdf";
-const api_key = import.meta.env.VITE_apiKey;
 
 const AddStudents = () => {
   const { register, handleSubmit, setValue, watch } = useForm();
@@ -72,11 +71,13 @@ const AddStudents = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [isWithoutPayment, setisWithoutPayment] = useState(false);
+  const [incharge, setIncharge] = useState(null)
 
   const { admin } = useContext(AuthContext);
-
+  const api_key = import.meta.env.VITE_apiKey;
   const AdmissionDataSend = (data) => {
     // console.log(data)
+    data = {...data, incharge}
     toast.promise(
       AdmissionFeeAdd(data)
         .then((res) => {
@@ -199,14 +200,16 @@ const AddStudents = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data)
-
     if (parseInt(fee) == 0 && !isWithoutPayment) {
       toast.error("You have forget to fill admission fee!");
       return;
     }
 
-  
+    if(!incharge) {
+      toast.error("Please specify receiver name.")
+      return 
+    }
+
     let _data;
     let Id;
     if (data.classId.includes("|")) {
@@ -235,13 +238,12 @@ const AddStudents = () => {
             return res.json();
           })
           .then((d) => {
-            console.log(d);
             if (d.err) throw new Error(d.err);
             AdmissionDataSend({
               fee: parseFloat(fee),
               discount: parseFloat(discount),
               other: parseFloat(other),
-              studentId: d.updated.id,
+              studentId: d.created.id,
               readmission: true,
             });
             setTimeout(()=>{
@@ -250,8 +252,6 @@ const AddStudents = () => {
             if (image) {
               uploadFile(d.updated.id_no.toString());
             }
-          }).catch(err=>{
-            console.log(err)
           }),
         {
           loading: "Adding student...",
@@ -361,8 +361,8 @@ const AddStudents = () => {
       setSec(null);
     }
   };
-
-  const [student, setStudent]  = useState(null)
+  
+  const [imageData, setImageData] = useState(null)
 
   const findStudent = () => {
     const id = document.getElementById("student_id").value;
@@ -372,10 +372,10 @@ const AddStudents = () => {
           return res.json();
         })
         .then((d) => {
-          setStudent(d)
           if (!d) throw new Error("Student not found!");
           if (d.err) throw new Error(d.err);
           setStdID(d.id);
+          setImageData(d.image)
           setValue("name", d.name);
           setValue("phone", d.phone);
           setValue("present_address", d.present_address);
@@ -397,8 +397,6 @@ const AddStudents = () => {
         error: (error) => <b>{error.message}</b>,
       }
     );
-
-    
   };
 
   return (
@@ -537,10 +535,10 @@ const AddStudents = () => {
                                   Permanent Address
                                   <Input
                                     {...register("permanent_address", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="permanent_address"
                                     placeholder="Permanent Address"
                                   />
@@ -723,10 +721,10 @@ const AddStudents = () => {
                                   B/C No. or NID No.
                                   <Input
                                     {...register("birth_certificate_no", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="number"
-                                    required
+                                    
                                     name="birth_certificate_no"
                                     placeholder="NID or Birth certificate number"
                                   />
@@ -738,10 +736,10 @@ const AddStudents = () => {
                                   Parents Name
                                   <Input
                                     {...register("parent_name", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="parent_name"
                                     placeholder="Parents Name"
                                   />
@@ -753,10 +751,10 @@ const AddStudents = () => {
                                   Parents Phone
                                   <Input
                                     {...register("parent_phone", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="parent_phone"
                                     placeholder="Parents Phone"
                                   />
@@ -768,10 +766,10 @@ const AddStudents = () => {
                                   Local Guardian&apos;s Name
                                   <Input
                                     {...register("local_guardian", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="local_guardian"
                                     placeholder="Local Guardians"
                                   />
@@ -783,10 +781,10 @@ const AddStudents = () => {
                                   Local Guardian&apos;s Phone
                                   <Input
                                     {...register("local_guardian_phone", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="local_guardian_phone"
                                     placeholder="Local Guardians Phone Number"
                                   />
@@ -1138,17 +1136,16 @@ const AddStudents = () => {
                                           type="file"
                                           accept="image/*"
                                         />
-                                       {
-                                        student?.image ?  <img
+                                        {imageData ? 
+                                        <img
                                         id="logo"
                                         className="h-[70px]"
-                                        src={student.image.data.image.url}
-                                      />:  <img
+                                        src={imageData.data.image.url}
+                                      /> : <img
                                       id="logo"
                                       className="h-[70px]"
                                       src="https://i.postimg.cc/rF77ZXQj/image.png"
-                                    />
-                                       }
+                                    />}
                                       </div>
                                     </label>
                                   </div>
@@ -1182,7 +1179,7 @@ const AddStudents = () => {
                                     <img
                                       alt="logo"
                                       className="h-[80px]"
-                                      src={imageDataURI}
+                                      src='./inst_logo.webp'
                                     />
                                   </div>
 
@@ -1365,12 +1362,15 @@ const AddStudents = () => {
                             {/* Signature */}
                             <div className="flex flex-row justify-between p-5 text-center">
                               <div>
-                                <p>{/* {watch('payment_received')} */}Atif Islam</p>
+                                <Input type="text" onChange={(e)=> {
+                                  // console.log(e.target.value)
+                                  setIncharge(e.target.value)
+                                }}  placeholder="Name"/>
                                 <hr></hr>
                                 <b>Received By</b>
                               </div>
                               <div>
-                                <p>সৈয়দ মুহীউদ্দীন ফাহাদ</p>
+                                <p className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</p>
                                 <hr></hr>
                                 <b>Founder</b>
                               </div>
@@ -1534,12 +1534,12 @@ const AddStudents = () => {
                             {/* Signature */}
                             <div className="flex flex-row justify-between p-5 text-center">
                               <div>
-                                <p>{/* {watch('payment_received')} */}Atif Islam</p>
+                                <p>{incharge}</p>
                                 <Separator className="my-2" />
                                 <b>Received By</b>
                               </div>
                               <div>
-                                <p>সৈয়দ মুহীউদ্দীন ফাহাদ</p>
+                                <p className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</p>
                                 <Separator className="my-2" />
                                 <b>Founder</b>
                               </div>

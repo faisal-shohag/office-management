@@ -30,7 +30,7 @@ import Loading from "@/components/app_components/Loading";
 const AddFees = () => {
   const { admin } = useContext(AuthContext);
   const { targetRef } = usePDF();
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
   const [student, setStudent] = useState(null);
   const [isData, setIsData] = useState(false);
   const [studentId, setStudentId] = useState(null);
@@ -93,6 +93,7 @@ const AddFees = () => {
 
   const onSubmit = (data) => {
     data = {
+      ...data,
       regular_fee: regularFee,
       transport_fee: transportFee,
       fine: fine,
@@ -277,6 +278,17 @@ const AddFees = () => {
                       placeholder="Discount Fee"
                     />
                   </label> */}
+
+                  <label htmlFor="incharge" className="md:col-span-1">
+                    Received by
+                    <Input
+                      {...register("incharge")}
+                      type="text"   
+                      required                 
+                      name="incharge"
+                      placeholder="Received by"
+                    />
+                  </label>
                 </div>
                 <Button size="sm" className="mt-5">
                   Submit
@@ -292,7 +304,7 @@ const AddFees = () => {
             <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
               <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="flex flex-col items-center w-full">
-                  <img className="h-10" src={imageDataURI}></img>
+                  <img className="h-10" src='./inst_logo.webp'/>
                   {admin && (
                     <div className="mt-3 text-center">
                       {/* <div className="font-bold text-xl">{admin.inst_name}</div> */}
@@ -415,7 +427,7 @@ const AddFees = () => {
               {/* Signature */}
               <div className="flex flex-row justify-between p-5 text-center">
                 <div>
-                  <p>{/* {watch('payment_received')} */}Atif Islam</p>
+                  <p>{watch('incharge')}</p>
                   <Separator className="my-2" />
                   <b>Received By</b>
                 </div>
@@ -577,7 +589,7 @@ const AddFees = () => {
               {/* Signature */}
               <div className="flex text-xl flex-row justify-between p-5 text-center">
                 <div>
-                  <p>{/* {watch('payment_received')} */}Atif Islam</p>
+                  <p>{watch('incharge')}</p>
                   <Separator className="my-2" />
                   <b>Received By</b>
                 </div>
