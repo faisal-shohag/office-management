@@ -119,27 +119,12 @@ const StudentProfile = () => {
                         <CardTitle>Transactions</CardTitle>
                         <CardDescription>Recent transactions.</CardDescription>
                       </div>
-                      {/* <Button asChild size="sm" className="ml-auto gap-1">
-                        <Link to="#">
-                          View All
-                          <ArrowUpRight className="h-4 w-4" />
-                        </Link>
-                      </Button> */}
                     </CardHeader>
                     <CardContent>
                       <Table>
                         <TableHeader>
                           <TableRow>
                             <TableHead>Fee Type</TableHead>
-                            {/* <TableHead className="hidden xl:table-column">
-                              Type
-                            </TableHead> */}
-                            {/* <TableHead className="hidden xl:table-column">
-                              Status
-                            </TableHead> */}
-                            {/* <TableHead className="hidden xl:table-column">
-                              Date
-                            </TableHead> */}
                             <TableHead className="text-right">Amount</TableHead>
                           </TableRow>
                         </TableHeader>
@@ -214,13 +199,21 @@ const StudentProfile = () => {
                           </CardDescription>
                         </div>
                         <div className="ml-auto flex items-center gap-1 border-2 rounded">
-                          <img
-                            alt="Product image"
-                            className="aspect-square rounded-md object-cover "
-                            height="64"
-                            src={`http://localhost:5000/image/students/${student.id_no}`}
-                            width="64"
-                          />
+                         {
+                          student.image?  <img
+                          alt="student_image"
+                          className="aspect-square rounded-md object-cover "
+                          height="64"
+                          src={student.image.data.image.url}
+                          width="64"
+                        />:  <img
+                        alt="student_image"
+                        className="aspect-square rounded-md object-cover "
+                        height="64"
+                        src="https://i.postimg.cc/cJrm5d4z/image.png"
+                        width="64"
+                      />
+                         }
                         </div>
                       </CardHeader>
                       <CardContent className="p-6 text-sm">

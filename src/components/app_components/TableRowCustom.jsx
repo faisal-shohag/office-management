@@ -26,19 +26,27 @@ import {
 } from "../ui/alert-dialog";
 
 const TableRowCustom = ({ data, handleDelete, nameFile }) => {
-  const { id_no, name, phone, designation, department } = data;
+  const { id_no, name, phone, designation, department, image } = data;
 
   // console.log(handleDelete);
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
-        <img
+        {
+          image ? <img
           alt="Teacher Image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={`http://localhost:5000/image/${nameFile}/${id_no}`}
+          src={image.data.image.url}
           width="64"
-        />
+        />: <img
+        alt="Teacher Image"
+        className="aspect-square rounded-md object-cover"
+        height="64"
+        src="https://i.postimg.cc/cJrm5d4z/image.png"
+        width="64"
+      />
+        }
       </TableCell>
       <TableCell className="font-medium">{id_no}</TableCell>
       <TableCell className="font-medium">{name}</TableCell>
@@ -51,12 +59,12 @@ const TableRowCustom = ({ data, handleDelete, nameFile }) => {
       <TableCell>
        
         <div className="flex items-center justify-center gap-3">
-          <Link to={`/dashboard/${nameFile}-profile/${id_no}`}>
+          <Link to={`/${nameFile}-profile/${id_no}`}>
             <Button>
               <Eye size={20} className="mr-2" /> View
             </Button>
           </Link>
-          <Link to={`/dashboard/${nameFile}-edit/${id_no}`}>
+          <Link to={`/${nameFile}-edit/${id_no}`}>
             <Button>
               <Edit size={20} className="mr-2" /> Edit
             </Button>

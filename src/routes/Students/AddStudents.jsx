@@ -45,6 +45,7 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import generatePDF, { Margin, usePDF } from "react-to-pdf";
+const api_key = import.meta.env.VITE_apiKey;
 
 const AddStudents = () => {
   const { register, handleSubmit, setValue, watch } = useForm();
@@ -120,7 +121,7 @@ const AddStudents = () => {
     formData.append("image", renamedFile);
     try {
       const response = await axios.post(
-        "http://localhost:5000/student_upload",
+        `${api_key}upload/student/${filename}`,
         formData,
         {
           withCredentials: true,
@@ -198,11 +199,14 @@ const AddStudents = () => {
   };
 
   const onSubmit = (data) => {
+    console.log(data)
+
     if (parseInt(fee) == 0 && !isWithoutPayment) {
       toast.error("You have forget to fill admission fee!");
       return;
     }
 
+  
     let _data;
     let Id;
     if (data.classId.includes("|")) {
@@ -231,12 +235,13 @@ const AddStudents = () => {
             return res.json();
           })
           .then((d) => {
+            console.log(d);
             if (d.err) throw new Error(d.err);
             AdmissionDataSend({
               fee: parseFloat(fee),
               discount: parseFloat(discount),
               other: parseFloat(other),
-              studentId: d.created.id,
+              studentId: d.updated.id,
               readmission: true,
             });
             setTimeout(()=>{
@@ -245,6 +250,8 @@ const AddStudents = () => {
             if (image) {
               uploadFile(d.updated.id_no.toString());
             }
+          }).catch(err=>{
+            console.log(err)
           }),
         {
           loading: "Adding student...",
@@ -256,10 +263,10 @@ const AddStudents = () => {
       return;
     }
 
-    if (!image) {
-      toast.error("Please select student image");
-      return;
-    }
+    // if (!image) {
+    //   toast.error("Please select student image");
+    //   return;
+    // }
 
     toast.promise(
       studentAdd(_data)
@@ -355,6 +362,8 @@ const AddStudents = () => {
     }
   };
 
+  const [student, setStudent]  = useState(null)
+
   const findStudent = () => {
     const id = document.getElementById("student_id").value;
     toast.promise(
@@ -363,6 +372,7 @@ const AddStudents = () => {
           return res.json();
         })
         .then((d) => {
+          setStudent(d)
           if (!d) throw new Error("Student not found!");
           if (d.err) throw new Error(d.err);
           setStdID(d.id);
@@ -388,17 +398,7 @@ const AddStudents = () => {
       }
     );
 
-    getImage("students", id.toString())
-      .then((res) => {
-        if (!res.ok) {
-          console.log(res);
-          return;
-        }
-        document.querySelector("#logo").src = res.url;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    
   };
 
   return (
@@ -1138,11 +1138,17 @@ const AddStudents = () => {
                                           type="file"
                                           accept="image/*"
                                         />
-                                        <img
-                                          id="logo"
-                                          className="h-[70px]"
-                                          src="https://i.postimg.cc/rF77ZXQj/image.png"
-                                        />
+                                       {
+                                        student?.image ?  <img
+                                        id="logo"
+                                        className="h-[70px]"
+                                        src={student.image.data.image.url}
+                                      />:  <img
+                                      id="logo"
+                                      className="h-[70px]"
+                                      src="https://i.postimg.cc/rF77ZXQj/image.png"
+                                    />
+                                       }
                                       </div>
                                     </label>
                                   </div>

@@ -95,10 +95,10 @@ const AddStuffs = () => {
   const onSubmit = (data) => {
     let _data = { ...data, password: "123" };
 
-    if (!image) {
-      toast.error("Please select staff image.");
-      return;
-    }
+    // if (!image) {
+    //   toast.error("Please select staff image.");
+    //   return;
+    // }
     _data = {
       ..._data,
       fixed_salary: parseInt(data.fixed_salary),
@@ -112,7 +112,10 @@ const AddStuffs = () => {
           console.log(d);
           if (d.err) throw new Error(d.err);
           updateId()
-          uploadFile(d.created.id_no.toString());
+          if(image) {
+            uploadFile(d.created.id_no.toString())
+          }
+          
         }),
       {
         loading: "Adding Staff...",

@@ -92,23 +92,18 @@ export default function Teachers() {
                             </Button>
                             <Button size="sm" className="h-8 gap-1">
                                 <PlusCircle className="h-3.5 w-3.5" />
-                                <Link to='/dashboard/add-teachers' className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                <Link to='/add-teachers' className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                                     Add Teachers
                                 </Link>
                             </Button>
                         </div>
                     </div>
                     {
-                        teachers.length == 0 ? <Alert title="You have not added any Teacher yet!" subtitle="Here you can manage teachers!" link="/dashboard/add-teachers" linktitle="Add"/> : <div>
+                        teachers.length == 0 ? <Alert title="You have not added any Teacher yet!" subtitle="Here you can manage teachers!" link="/add-teachers" linktitle="Add"/> : <div>
                         <TabsContent value="all">
                             <TeacherTabContent title="All Teachers" description="Manage all teachers here." teachers={teachers}/>
                         </TabsContent>
-                        {/* <TabsContent value="present">
-                        <TeacherTabContent title="Present Teachers" description="Manage all present teachers here." teachers={teachers}/>
-                        </TabsContent>
-                        <TabsContent value="leave">
-                        <TeacherTabContent title="Teachers who have left" description="Manage all left teachers here." teachers={teachers}/>
-                        </TabsContent> */}
+                       
                         </div>
                     }
                 </Tabs>

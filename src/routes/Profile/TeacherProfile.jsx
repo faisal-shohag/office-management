@@ -12,13 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { useParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
@@ -117,13 +110,22 @@ const TeacherProfile = () => {
                           </CardDescription>
                         </div>
                         <div className="ml-auto flex items-center gap-1 border-2 rounded">
-                          <img
-                            alt="Product image"
+                          {
+                            teacher.image ? <img
+                            alt="teacher_image"
                             className="aspect-square rounded-md object-cover "
                             height="64"
-                            src={`http://localhost:5000/image/teachers/${teacher.id_no}`}
+                            src={teacher.image.data.image.url}
+                            width="64"
+                          /> : 
+                          <img
+                            alt="teacher_image"
+                            className="aspect-square rounded-md object-cover "
+                            height="64"
+                            src="https://i.postimg.cc/cJrm5d4z/image.png"
                             width="64"
                           />
+                          }
                         </div>
                       </CardHeader>
                       <CardContent className="p-6 text-sm">

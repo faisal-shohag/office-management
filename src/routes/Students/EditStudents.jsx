@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-
+const api_key = import.meta.env.VITE_apiKey;
 const EditStudents = () => {
   const { register, handleSubmit, setValue } = useForm();
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const EditStudents = () => {
     formData.append("image", renamedFile);
     try {
       const response = await axios.post(
-        "http://localhost:5000/student_upload",
+        `${api_key}upload/student/${filename}`,
         formData,
         {
           withCredentials: true,
@@ -64,7 +64,7 @@ const EditStudents = () => {
       );
       console.log("File uploaded:", response.data);
       setIsDialogOpen(false);
-      navigate("/dashboard/students");
+      navigate("/students");
       window.location.reload();
     } catch (error) {
       setIsDialogOpen(false);
@@ -117,6 +117,8 @@ const EditStudents = () => {
     );
   };
 
+  const [student, setStudent] = useState()
+
   const id = useParams();
   useEffect(() => {
     getStudentById(id.id)
@@ -125,6 +127,7 @@ const EditStudents = () => {
       })
       .then((d) => {
         //console.log(d);
+        setStudent(d);
         setTableId(d.id);
         if (!d) throw new Error("Student not found!");
         if (d.err) throw new Error(d.err);
@@ -145,21 +148,9 @@ const EditStudents = () => {
         setValue("local_guardian_phone", d.local_guardian_phone);
         setIsData(true);
       });
-
-    setTimeout(() => {
-      getImage("students", id.id)
-        .then((res) => {
-          if (!res.ok) {
-            console.log(res);
-            return;
-          }
-          document.getElementById("logo").src = res.url;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 1500);
   }, [id, setValue]);
+
+  console.log(student)
 
   return (
     <>
@@ -173,7 +164,7 @@ const EditStudents = () => {
                 onClose={handleCloseDialog}
               />
               <h1 className="text-2xl font-bold mb-3">
-                Update Student Data {new Date().getFullYear()}
+                Update Student
               </h1>
               <div className="grid lg:grid-cols-1 gap-5">
                 <div className="col-span-2">
@@ -440,11 +431,17 @@ const EditStudents = () => {
                                 type="file"
                                 accept="image/*"
                               />
-                              <img
-                                id="logo"
-                                className="h-[70px]"
-                                src="https://i.postimg.cc/rF77ZXQj/image.png"
-                              />
+                             {
+                              student.image ?  <img
+                              id="logo"
+                              className="h-[70px]"
+                              src={student.image.data.image.url}
+                            /> : <img
+                            id="logo"
+                            className="h-[70px]"
+                            src="https://i.postimg.cc/rF77ZXQj/image.png"
+                          />
+                             }
                             </div>
                           </label>
                         </div>

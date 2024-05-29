@@ -35,7 +35,7 @@ const AddTeacher = () => {
 
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const api_key = import.meta.env.VITE_apiKey;
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
@@ -47,7 +47,7 @@ const AddTeacher = () => {
     const renamedFile = new File([image],`${filename}.${ext}`, {type: image.type})
     formData.append('image', renamedFile);
     try {
-      const response = await axios.post('http://localhost:5000/teacher_upload', formData, {
+      const response = await axios.post(`${api_key}upload/teacher/${filename}`, formData, {
         withCredentials: true,
         onUploadProgress: (progressEvent) => {
           const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
@@ -94,10 +94,10 @@ const AddTeacher = () => {
       return
     }
 
-    if(!image) {
-      toast.error("Please select teacher image.")
-      return
-    }
+    // if(!image) {
+    //   toast.error("Please select teacher image.")
+    //   return
+    // }
 
     
 
@@ -127,7 +127,9 @@ const AddTeacher = () => {
         console.log(d)
         if (d.err) throw new Error(d.err);
         updateId()
-        uploadFile(d.created.id_no.toString())
+        if(image) {
+          uploadFile(d.created.id_no.toString())
+        }
 
       }),
         {
@@ -225,7 +227,7 @@ const AddTeacher = () => {
               <Alert
                 title="You have not added course yet!"
                 subtitle="To add teacher, create course first!"
-                link="/dashboard/add-classes"
+                link="/add-classes"
                 linktitle="Add"
               />
             ) : (

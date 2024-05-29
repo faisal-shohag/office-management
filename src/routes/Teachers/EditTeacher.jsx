@@ -41,7 +41,7 @@ const EditTeacher = () => {
     formData.append("image", renamedFile);
     try {
       const response = await axios.post(
-        `${api_key}teacher_upload`,
+        `${api_key}upload/teacher/${filename}`,
         formData,
         {
           withCredentials: true,
@@ -55,7 +55,7 @@ const EditTeacher = () => {
       );
       console.log("File uploaded:", response.data);
       setIsDialogOpen(false);
-      navigate("/dashboard/teachers");
+      navigate("/teachers");
       window.location.reload();
     } catch (error) {
       setIsDialogOpen(false);
@@ -137,6 +137,7 @@ const EditTeacher = () => {
   };
 
   const id = useParams();
+  const [teacherImage, setTeacherImage] = useState(null)
   useEffect(() => {
 
     getClasses()
@@ -161,6 +162,7 @@ const EditTeacher = () => {
       })
       .then((d) => {
         setTableId(d.id);
+        setTeacherImage(d.image)
         if (!d) throw new Error("Teacher not found!");
         if (d.err) throw new Error(d.err);
         setValue("name", d.name);
@@ -185,20 +187,6 @@ const EditTeacher = () => {
         setValue("local_guardian_phone", d.local_guardian_phone);
         setIsData(true);
       });
-
-    setTimeout(() => {
-      getImage("teachers", id.id)
-        .then((res) => {
-          if (!res.ok) {
-            console.log(res);
-            return;
-          }
-          document.getElementById("logo").src = res.url;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 1500);
   }, [id, setValue]);
 
 
@@ -421,11 +409,18 @@ const EditTeacher = () => {
                           type="file"
                           accept="image/*"
                         />
-                        <img
+                        {
+                          teacherImage ? <img
                           id="logo"
                           className="h-[70px]"
-                          src="https://i.postimg.cc/rF77ZXQj/image.png"
-                        />
+                          src={teacherImage.data.image.url}
+                        /> : <img
+                        id="logo"
+                        className="h-[70px]"
+                        src="https://i.postimg.cc/rF77ZXQj/image.png"
+                      />
+                        }
+                        
                       </div>
                     </label>
                   </div>

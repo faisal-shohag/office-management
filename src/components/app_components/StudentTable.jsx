@@ -8,13 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 
 import {
   AlertDialog,
@@ -28,10 +21,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
+import { Edit, Eye, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { deleteStudent } from "@/lib/api";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import Alert from "./Alert";
 const StudentTable = ({ students, studentFetchHandler }) => {
@@ -56,7 +48,11 @@ const StudentTable = ({ students, studentFetchHandler }) => {
         }
       );
     }
+
+
   };
+
+  // console.log(students)
 
   return (
     <div>
@@ -88,13 +84,21 @@ const StudentTable = ({ students, studentFetchHandler }) => {
             {students.map((student) => (
               <TableRow key={student.email}>
                 <TableCell className="hidden sm:table-cell">
-                  <img
-                    alt="Product image"
-                    className="aspect-square rounded-md object-cover"
-                    height="64"
-                    src={`http://localhost:5000/image/students/${student.id_no}`}
-                    width="64"
-                  />
+                 {
+                  student.image ?  <img
+                  alt="Product image"
+                  className="aspect-square rounded-md object-cover"
+                  height="64"
+                  src={student.image?.data.thumb.url}
+                  width="64"
+                />:  <img
+                alt="Product image"
+                className="aspect-square rounded-md object-cover"
+                height="64"
+                src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                width="64"
+              />
+                 }
                   {/* <ImageView imageUrl={`http://localhost:5000/image/students/${student.id_no}`} defaultImageUrl="https://static.vecteezy.com/system/resources/thumbnails/006/487/917/small_2x/man-avatar-icon-free-vector.jpg"/> */}
                 </TableCell>
                 <TableCell className="font-medium">{student.id_no}</TableCell>
@@ -116,12 +120,12 @@ const StudentTable = ({ students, studentFetchHandler }) => {
                 <TableCell>
                   <div>
                     <div className="flex items-center justify-center gap-3">
-                      <Link to={`/dashboard/student-profile/${student.id_no}`}>
+                      <Link to={`/student-profile/${student.id_no}`}>
                         <Button>
                           <Eye size={20} className="mr-2" /> View
                         </Button>
                       </Link>
-                      <Link to={`/dashboard/editStudent/${student.id_no}`}>
+                      <Link to={`/editStudent/${student.id_no}`}>
                         <Button>
                           <Edit size={20} className="mr-2" /> Edit
                         </Button>
