@@ -19,7 +19,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
-
 import { AuthContext } from "@/Providers/AuthProvider";
 import Alert from "@/components/app_components/Alert";
 import Loading from "@/components/app_components/Loading";
@@ -34,7 +33,6 @@ export default function IdCards() {
   const { targetRef } = usePDF();
   const { register, setValue, watch } = useForm();
   const [student, setStudent] = useState([]);
-  const [imageDataURI, setImageDataURI] = useState(null);
   const [imageDataURI2, setImageDataURI2] = useState(null);
   const [studentURI, setStudentURI] = useState(null);
   const { admin } = useContext(AuthContext);
@@ -52,6 +50,7 @@ export default function IdCards() {
   }, [setCheckData]);
 
   /* Find Student For Generate ID CARD */
+
   const findStudent = async (e) => {
     e.preventDefault();
     const id = document.getElementById("student_id2").value;
@@ -99,13 +98,7 @@ export default function IdCards() {
 
   };
 
-  useEffect(() => {
-    const loadImageDataURI = async () => {
-      const dataURI = await fetchImageAndConvertToDataURI("inst", "logo");
-      setImageDataURI(dataURI);
-    };
-    loadImageDataURI();
-  }, []);
+
 
 
   return (
@@ -214,7 +207,7 @@ export default function IdCards() {
       {student.length !== 0 && (
         <>
         <div className="flex items-center justify-center" >
-          <div className="grid grid-cols-1 gap-10 mt-10">
+          <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-10 mt-10">
             <div
               id="id_card"
               className="shadow-lg p-5 relative h-[700px] w-[500px] border"
@@ -224,14 +217,10 @@ export default function IdCards() {
               </div>
 
               <div className="h-[250px] w-[250px] border-[10px] border-white bg-black rounded-full absolute top-[21%] left-[25%] overflow-hidden">
-                <img
-                  className="h-[250px] w-[250px]"
-                  src={
-                    studentURI
-                      ? studentURI
-                      : "https://static.vecteezy.com/system/resources/thumbnails/006/487/917/small_2x/man-avatar-icon-free-vector.jpg"
+              {
+                    student.image ? <img className="h-[250px] w-[250px]" src={student.image.data.image.url} />:
+                     <img className="h-[250px] w-[250px]" src="https://i.postimg.cc/cJrm5d4z/image.png" />
                   }
-                />
               </div>
               <div className=" text-center   text-black">
                 <div className="mt-[130px] text-black text-3xl font-bold">
@@ -250,7 +239,7 @@ export default function IdCards() {
                   Session: <b>{student.session}</b>
                 </div> */}
                 <div className="mt-14 flex justify-center grayscale">
-                  <img className="h-[70px]" src={imageDataURI} />
+                  <img className="h-[70px]" src="./inst_logo.webp"/>
                 </div>
               </div>
             </div>
@@ -349,7 +338,7 @@ export default function IdCards() {
                   </div>
                   <img
                     className="h-10 mt-10"
-                    src={imageDataURI2}
+                    src='./sign.png'
                     alt="signature"
                   />
                   <div className="h-1 bg-black w-[200px]  mb-0"></div>
@@ -362,20 +351,8 @@ export default function IdCards() {
                     }}
                     className=" w-full bg-black left-0 mt-7 flex justify-center py-3"
                   >
-                    {/* <img
-                      className="h-[80px] bg-white"
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
-                    /> */}
-                    <div
-                      style={{
-                        height: "auto",
-                        margin: "0 auto",
-                        maxWidth: 64,
-                        width: "100%",
-                      }}
-                      className="bg-white p-2"
-                    >
-                      <img className="h-[100px]" src="./qr.png"/>
+                    <div>
+                    <img className="h-[50px]"  src="./qr.png"/>
                     </div>
                   </div>
                 </div>
@@ -387,21 +364,18 @@ export default function IdCards() {
           <div className="grid grid-cols-1 gap-5 mt-5">
             <div
               id="id_card"
-              className="shadow-lg p-5 relative w-fullborder w-[1300px] h-[2000px]"
+              className="shadow-lg p-5 relative w-fullborder w-full h-[2000px] mb-[500px]"
             >
               <div className="bg-black h-[40%] text-8xl font-black justify-center flex items-center text-white">
                 <span className="mb-[20%]"> {admin?.inst_name}</span>
               </div>
 
               <div className="h-[550px] w-[550px] border-[10px] border-white bg-black rounded-full absolute top-[27%] left-[30%] overflow-hidden">
-                <img
-                  className="h-[550px] w-[550px]"
-                  src={
-                    studentURI
-                      ? studentURI
-                      : "https://static.vecteezy.com/system/resources/thumbnails/006/487/917/small_2x/man-avatar-icon-free-vector.jpg"
+                
+                 {
+                    student.image ? <img className="h-[550px] w-[550px]" src={student.image.data.image.url} />:
+                     <img className="h-[550px] w-[550px]" src="https://i.postimg.cc/cJrm5d4z/image.png" />
                   }
-                />
               </div>
               <div className=" text-center   text-black flex flex-col justify-center gap-5">
                 <div className="mt-[22%]  text-black text-7xl font-bold">
@@ -417,7 +391,7 @@ export default function IdCards() {
                   ID: <b>{student.id_no}</b>
                 </div>
                 <div className="mt-[25%] mb-20 flex justify-center grayscale">
-                  <img className="h-[200px]" src={imageDataURI} />
+               <img src="./inst_logo.webp"/>
                 </div>
               </div>
             </div>
@@ -477,7 +451,7 @@ export default function IdCards() {
                   </tbody>
                 </table>
 
-                <div className="absolute bottom-[150px]   flex flex-col items-center justify-center w-full">
+                <div className="absolute bottom-0 flex flex-col items-center justify-center w-full">
                   <div className="font-bold text-6xl text-center ">
                     Institution Information
                   </div>
@@ -516,9 +490,10 @@ export default function IdCards() {
                   </div>
                   <img
                     className="h-[200px] mt-10"
-                    src={imageDataURI2}
+                    src='./sign.png'
                     alt="signature"
                   />
+               
                   <div className="h-1 bg-black w-[200px]  mb-10"></div>
                   <div className="font-bold">{watch("issuer")}</div>
 
@@ -529,30 +504,9 @@ export default function IdCards() {
                     }}
                     className=" w-full bg-black left-0 mt-7 flex justify-center py-3"
                   >
-                    {/* <img
-                      className="h-[80px] bg-white"
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
-                    /> */}
                     <div
-                      style={{
-                        height: "auto",
-                        margin: "0 auto",
-                        maxWidth: 64,
-                        width: "100%",
-                      }}
-                      className="bg-white p-2"
                     >
-                     <div
-                      style={{
-                        height: "auto",
-                        margin: "0 auto",
-                        maxWidth: 64,
-                        width: "100%",
-                      }}
-                      className="bg-white p-2"
-                    >
-                      <img className="h-[100px]" src="./qr.png"/>
-                    </div>
+                      <img className="h-[100px] w-[100px]" src="./qr.png"/>
                     </div>
                   </div>
                 </div>

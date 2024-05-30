@@ -167,7 +167,6 @@ const AddTeacher = () => {
   }
 
   
-
   useEffect(() => {
     getClasses()
       .then((res) => res.json())
@@ -176,8 +175,10 @@ const AddTeacher = () => {
         for (let d in data) {
           _data.push({ ...data[d], selected: false });
         }
+       
         setClasses(_data);
         setIsData(true);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -213,10 +214,11 @@ const AddTeacher = () => {
     classes[id]["selected"] = !classes[id]["selected"];
     setClasses([...classes]);
   };
+  console.log(classes)
 
   return (
     <>
-      {!isData && isData2 ? (
+      {!isData || !isData2 ? (
         <Loading />
       ) : (
         <div style={{ overflow: "hidden" }}>

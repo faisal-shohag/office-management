@@ -304,7 +304,7 @@ const AddFees = () => {
             <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
               <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="flex flex-col items-center w-full">
-                  <img className="h-10" src={imageDataURI}></img>
+                  <img className="h-10" src='./inst_logo.webp'/>
                   {admin && (
                     <div className="mt-3 text-center">
                       {/* <div className="font-bold text-xl">{admin.inst_name}</div> */}
