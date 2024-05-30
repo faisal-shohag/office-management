@@ -50,6 +50,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import TotalTransection from './routes/TotalTransection/TotalTransection';
 import AddVisitor from './routes/Visitors/AddVisitor';
 import VisitorReport from './routes/Visitors/VisitorReport';
+import NotFound from './routes/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <PrivateRoute><Dashboard/></PrivateRoute>,
+    errorElement: <NotFound/>,
     children: [
       {
         path: "/",
@@ -219,6 +221,7 @@ const router = createBrowserRouter([
       },
     ]
   },
+
   
 ]);
 

@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getClasses, getLastTeacher, getVisitors, teacherAdd, visitorsAdd } from "@/lib/api";
+import { getClasses, getVisitors, visitorsAdd } from "@/lib/api";
 import { useForm } from "react-hook-form";
 import { CheckCircle, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loading from "@/components/app_components/Loading";
 import Alert from "@/components/app_components/Alert";
-import axios from "axios";
-import UploadDialog from "@/components/app_components/UploadDialog";
 import toast from "react-hot-toast";
 import LatesVisitor from "./LatesVisitor";
 

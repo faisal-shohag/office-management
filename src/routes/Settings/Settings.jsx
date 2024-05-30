@@ -6,7 +6,6 @@ import { useContext, useEffect, useState } from "react";
 import Loading from "@/components/app_components/Loading";
 import toast from "react-hot-toast";
 
-import UploadDialog from "@/components/app_components/UploadDialog";
 import { AuthContext } from "@/Providers/AuthProvider";
 
 const Settings = () => {
