@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getClasses, getLastTeacher, teacherAdd } from "@/lib/api";
+import { getClasses, getLastTeacher, getVisitors, teacherAdd, visitorsAdd } from "@/lib/api";
 import { useForm } from "react-hook-form";
 import { CheckCircle, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import Alert from "@/components/app_components/Alert";
 import axios from "axios";
 import UploadDialog from "@/components/app_components/UploadDialog";
 import toast from "react-hot-toast";
+import LatesVisitor from "./LatesVisitor";
 
 const AddVisitor = () => {
     const {
@@ -20,143 +21,45 @@ const AddVisitor = () => {
 
     const [classes, setClasses] = useState([]);
     const [isData, setIsData] = useState(false);
-    const [isData2, setIsData2] = useState(false);
+    const [isData2, setIsData2] = useState(true);
     // const [teacherCount, setTeacherCount] = useState(0)
 
 
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const api_key = import.meta.env.VITE_apiKey;
 
     const handleCloseDialog = () => {
         setIsDialogOpen(false);
     };
-    const uploadFile = async (filename) => {
-        setIsDialogOpen(true)
-        const formData = new FormData();
-        const ext = image.name.split(".").pop()
-        const renamedFile = new File([image], `${filename}.${ext}`, { type: image.type })
-        formData.append('image', renamedFile);
-        try {
-            const response = await axios.post(`${api_key}upload/teacher/${filename}`, formData, {
-                withCredentials: true,
-                onUploadProgress: (progressEvent) => {
-                    const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-                    setUploadProgress(progress);
-                }
-            });
-            console.log('File uploaded:', response.data);
-            setIsDialogOpen(false);
-        } catch (error) {
-            setIsDialogOpen(false);
-            console.error('Error uploading file:', error);
-        }
-    };
-
-    const [image, setImage] = useState(null)
-
-    //  image upload
-    const previewFile = () => {
-        const preview = document.querySelector('#logo')
-        const file = document.querySelector('input[type=file]').files[0]
-        setImage(file)
-        const reader = new FileReader()
-        console.log(file)
-
-        reader.addEventListener('load', () => {
-            preview.src = reader.result;
-        }, false)
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    }
-
-
-
 
     const onSubmit = (data) => {
 
-        let _data = { ...data, password: "123", };
-        let selectedClasses = classes.filter((cls) => cls.selected == true);
+        let _data = { ...data };
+        let selectedClasses = classes.map((cls) => cls.name);
 
         if (selectedClasses.length == 0) {
             toast.error("Please select class to assign!")
             return
         }
 
-        // if(!image) {
-        //   toast.error("Please select teacher image.")
-        //   return
-        // }
-
-
-
-
-        selectedClasses = selectedClasses.map((cls) => {
-            if (cls.selected)
-                return {
-                    class: {
-                        connect: {
-                            id: cls.id,
-                        },
-                    },
-                };
-        });
-
-        _data = {
-            ...data,
-            classes: { create: selectedClasses },
-            fixed_salary: parseInt(data.fixed_salary),
-            id_no: data.id_no
-        };
+        // Get Data
+        _data = { ..._data, classes: selectedClasses }
+        console.log(_data);
 
         toast.promise(
-            teacherAdd(_data)
+            visitorsAdd(_data)
                 .then((res) => res.json())
                 .then((d) => {
                     console.log(d)
                     if (d.err) throw new Error(d.err);
-                    updateId()
-                    if (image) {
-                        uploadFile(d.created.id_no.toString())
-                    }
-
                 }),
             {
-                loading: "Adding teacher...",
+                loading: "Adding visitor...",
                 success: <b>Successfully added!</b>,
                 error: (error) => <b>{error.message}</b>,
             }
         );
     };
-
-
-    const updateId = () => {
-        getLastTeacher()
-            .then((res) => res.json())
-            .then((data) => {
-                //  console.log(data)
-                setIsData2(true);
-                const year = new Date().getFullYear().toString();
-                let id
-                if (data.length != 0) {
-                    let sid = data[0].id_no
-                    id = parseInt(sid.match(/\d{4}$/))
-                    id += 1
-                    sid = sid.slice(0, -4)
-                    id = id.toString().padStart(4, "0")
-                    id = sid + id
-                } else {
-                    id = year[2] + year[3] + 'T' + "0001";
-                }
-                setValue("id_no", id.toString());
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
 
 
     useEffect(() => {
@@ -173,31 +76,6 @@ const AddVisitor = () => {
             .catch((err) => {
                 console.log(err);
             });
-
-        getLastTeacher()
-            .then((res) => res.json())
-            .then((data) => {
-                //  console.log(data)
-                setIsData2(true);
-                const year = new Date().getFullYear().toString();
-                let id
-                if (data.length != 0) {
-                    let sid = data[0].id_no
-                    id = parseInt(sid.match(/\d{4}$/))
-                    id += 1
-                    sid = sid.slice(0, -4)
-                    id = id.toString().padStart(4, "0")
-                    id = sid + id
-                } else {
-                    id = year[2] + year[3] + 'T' + "0001";
-                }
-                setValue("id_no", id.toString());
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-
     }, [setValue]);
 
     const handleClassSelect = (id) => {
@@ -205,9 +83,18 @@ const AddVisitor = () => {
         setClasses([...classes]);
     };
 
+    const [visitors, setVisitors] = useState([])
+
+    /* Get Latest Vistor */
+    useEffect(() => {
+        getVisitors()
+            .then(res => res.json())
+            .then(data => setVisitors((data)))
+    }, [])
+
     return (
         <>
-            {!isData && isData2 ? (
+            {!isData || !isData2 ? (
                 <Loading />
             ) : (
                 <div style={{ overflow: "hidden" }}>
@@ -250,21 +137,19 @@ const AddVisitor = () => {
                                     <label htmlFor="Parmanent Address" className="md:col-span-1">
                                         Address
                                         <Input
-                                            {...register("parmanent_address", { required: true })}
+                                            {...register("address")}
                                             type="text"
-                                            name="parmanent_address"
+                                            name="address"
                                             placeholder="Parmanent Address"
-                                            required
                                         />
                                     </label>
                                     <label htmlFor="Email" className="md:col-span-1">
                                         Email
                                         <Input
-                                            {...register("email", { required: true })}
+                                            {...register("email")}
                                             type="email"
                                             name="email"
                                             placeholder="Email"
-                                            required
                                         />
                                     </label>
                                 </div>
@@ -296,6 +181,7 @@ const AddVisitor = () => {
                             </form>
                         )}
                     </>
+                    <LatesVisitor visitors={visitors} />
                 </div>
             )}
         </>

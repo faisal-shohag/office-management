@@ -175,6 +175,17 @@ const accountsAdd = (data) => {
     body: JSON.stringify(data),
   });
 };
+// ADD Visitor
+const visitorsAdd = (data) => {
+  return fetch(api_key + "visitor_add", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+};
 
 ////___________________________________________________________________________________________________________________////////
 
@@ -381,6 +392,14 @@ const feeReportByDate = (startDate, endDate) => {
 //count
 const getCount = () => {
   return fetch(api_key + "count", {
+    method: "GET",
+    credentials: "include",
+  });
+};
+
+//get Visitor
+const getVisitors = () => {
+  return fetch(api_key + "latest_visitors", {
     method: "GET",
     credentials: "include",
   });
@@ -611,5 +630,7 @@ export {
   classUpdate,
   teacherUpdate,
   staffUpdate,
-  transactions
+  transactions,
+  visitorsAdd,
+  getVisitors
 };
