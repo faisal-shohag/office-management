@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   formDate,
-  getImage,
   getStaffById,
   staffUpdate,
 } from "@/lib/api";
@@ -11,13 +10,12 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/app_components/Loading";
 import axios from "axios";
 import UploadDialog from "@/components/app_components/UploadDialog";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 const api_key = import.meta.env.VITE_apiKey;
 
 const EditStuff = () => {
   const { register, handleSubmit, setValue } = useForm();
-  const navigate = useNavigate();
   const [isData, setIsData] = useState(false);
 
   const [tableId, setTableId] = useState(null);
@@ -38,7 +36,7 @@ const EditStuff = () => {
     formData.append("image", renamedFile);
     try {
       const response = await axios.post(
-        `${api_key}staff_upload`,
+        `${api_key}upload/staff/${filename}`,
         formData,
         {
           withCredentials: true,
@@ -52,7 +50,6 @@ const EditStuff = () => {
       );
       console.log("File uploaded:", response.data);
       setIsDialogOpen(false);
-      navigate("/dashboard/stuffs");
       window.location.reload();
     } catch (error) {
       setIsDialogOpen(false);
@@ -136,19 +133,6 @@ const EditStuff = () => {
         setIsData(true);
       });
 
-    setTimeout(() => {
-      getImage("staffs", id.id)
-        .then((res) => {
-          if (!res.ok) {
-            console.log(res);
-            return;
-          }
-          document.getElementById("logo").src = res.url;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 1500);
   }, [id, setValue]);
 
   return (

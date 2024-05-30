@@ -49,6 +49,11 @@ const Transaction = () => {
     getData('transactions/with-month')
     .then(res=>res.json())
     .then(data=> {
+      console.log(data)
+      if(data.error) {
+        setMonthly([])
+        return 
+      }
       const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       data.sort((a, b) => {
         return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);

@@ -1534,13 +1534,6 @@ const AddStudents = () => {
                           <hr></hr>
                           {/* Signature */}
                           <div className="flex flex-row justify-between p-5 text-center">
-                            <div>
-                              <p>{/* {watch('payment_received')} */}Atif Islam</p>
-                              <Separator className="my-2" />
-                              <b>Received By</b>
-                            </div>
-                            <hr></hr>
-                            {/* Signature */}
                             <div className="flex flex-row justify-between p-5 text-center">
                               <div>
                                 <p>{incharge}</p>
