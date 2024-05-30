@@ -1395,7 +1395,7 @@ const AddStudents = () => {
                   {/* Downloadable payslip */}
                   <div className={isGenerate ? "block mt-60" : "hidden"}>
                     <div className="lg:grid grid-cols-2  gap-5">
-                      <div style={{ transform: "scale(1)" }} ref={targetRef}>
+                      <div style={{ transform: "scale(2)" }} ref={targetRef}>
                         <Card
                           className="overflow-hidden"
                           x-chunk="dashboard-05-chunk-4"
