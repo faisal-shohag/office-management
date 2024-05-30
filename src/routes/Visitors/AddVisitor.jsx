@@ -21,16 +21,9 @@ const AddVisitor = () => {
 
     const [classes, setClasses] = useState([]);
     const [isData, setIsData] = useState(false);
-    const [isData2, setIsData2] = useState(true);
-    // const [teacherCount, setTeacherCount] = useState(0)
 
 
-    const [uploadProgress, setUploadProgress] = useState(0);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const handleCloseDialog = () => {
-        setIsDialogOpen(false);
-    };
 
     const onSubmit = (data) => {
 
@@ -94,11 +87,10 @@ const AddVisitor = () => {
 
     return (
         <>
-            {!isData || !isData2 ? (
+            {!isData ? (
                 <Loading />
             ) : (
                 <div style={{ overflow: "hidden" }}>
-                    <UploadDialog progress={uploadProgress.toString()} isOpen={isDialogOpen} onClose={handleCloseDialog} />
                     <h1 className="text-2xl font-bold mb-3">Add Visitor</h1>
                     <>
                         {classes.length == 0 ? (
