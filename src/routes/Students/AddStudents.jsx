@@ -1407,7 +1407,7 @@ const AddStudents = () => {
                                   <img
                                     alt="logo"
                                     className="h-[80px]"
-                                    src={imageDataURI}
+                                    src='./inst_logo.webp'
                                   />
                                 </div>
 
