@@ -21,6 +21,7 @@ const AddVisitor = () => {
 
     const [classes, setClasses] = useState([]);
     const [isData, setIsData] = useState(false);
+    const [load, setLoad] = useState(true)
 
 
 
@@ -43,7 +44,7 @@ const AddVisitor = () => {
             visitorsAdd(_data)
                 .then((res) => res.json())
                 .then((d) => {
-                    console.log(d)
+                    setLoad(d)
                     if (d.err) throw new Error(d.err);
                 }),
             {
@@ -53,6 +54,8 @@ const AddVisitor = () => {
             }
         );
     };
+
+
 
 
     useEffect(() => {
@@ -76,14 +79,8 @@ const AddVisitor = () => {
         setClasses([...classes]);
     };
 
-    const [visitors, setVisitors] = useState([])
 
-    /* Get Latest Vistor */
-    useEffect(() => {
-        getVisitors()
-            .then(res => res.json())
-            .then(data => setVisitors((data)))
-    }, [])
+
 
     return (
         <>
@@ -173,7 +170,7 @@ const AddVisitor = () => {
                             </form>
                         )}
                     </>
-                    <LatesVisitor visitors={visitors} />
+                    <LatesVisitor load={load} setLoad={setLoad} />
                 </div>
             )}
         </>

@@ -1,9 +1,41 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 
-const GenerateVisitorReport = () => {
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from '@/components/ui/button';
+import { deleteVisitor } from "@/lib/api";
+import toast from "react-hot-toast";
+
+const GenerateVisitorReport = ({ data }) => {
+    /* Delete Class */
+    const deleteHandler = (id) => {
+        toast.promise(
+            deleteVisitor(id).then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to delete!");
+                }
+                // refresh site
+                window.location.reload();
+                return res.json();
+            }),
+            {
+                loading: "Deleting ...",
+                success: <b>Successfully deleted!</b>,
+                error: <b>Failed to delete.</b>,
+            }
+        );
+    };
+
     return (
-
-
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -26,91 +58,44 @@ const GenerateVisitorReport = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
-                        </th>
-                        <td className="px-6 py-4">
-                            Silver
-                        </td>
-                        <td className="px-6 py-4">
-                            Laptop
-                        </td>
-                        <td className="px-6 py-4">
-                            $2999
-                        </td>
-                        <td className="px-6 py-4">
-                            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Microsoft Surface Pro
-                        </th>
-                        <td className="px-6 py-4">
-                            White
-                        </td>
-                        <td className="px-6 py-4">
-                            Laptop PC
-                        </td>
-                        <td className="px-6 py-4">
-                            $1999
-                        </td>
-                        <td className="px-6 py-4">
-                            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Magic Mouse 2
-                        </th>
-                        <td className="px-6 py-4">
-                            Black
-                        </td>
-                        <td className="px-6 py-4">
-                            Accessories
-                        </td>
-                        <td className="px-6 py-4">
-                            $99
-                        </td>
-                        <td className="px-6 py-4">
-                            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
-                    <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Google Pixel Phone
-                        </th>
-                        <td className="px-6 py-4">
-                            Gray
-                        </td>
-                        <td className="px-6 py-4">
-                            Phone
-                        </td>
-                        <td className="px-6 py-4">
-                            $799
-                        </td>
-                        <td className="px-6 py-4">
-                            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple Watch 5
-                        </th>
-                        <td className="px-6 py-4">
-                            Red
-                        </td>
-                        <td className="px-6 py-4">
-                            Wearables
-                        </td>
-                        <td className="px-6 py-4">
-                            $999
-                        </td>
-                        <td className="px-6 py-4">
-                            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
+                    {
+                        data.map(item => {
+                            return (
+                                <tr key={item.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {item.name}
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        {item.phone}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {item.email}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {item.classes.join(' | ')}
+                                    </td>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button className="" variant="destructive">Delete</Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. This will permanently delete your
+                                                    account and remove your data from our servers.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => deleteHandler(item.id)}>Delete</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </table>
         </div>

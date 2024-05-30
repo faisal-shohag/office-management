@@ -405,6 +405,16 @@ const getVisitors = () => {
   });
 };
 
+/* Visitor Report By Date */
+const visitorReportByDate = (startDate, endDate) => {
+  return fetch(api_key + `visitors_by_date?startDate=${startDate}&endDate=${endDate}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+};
+
 //----------------------------------------------
 //UPDATE
 
@@ -564,17 +574,26 @@ const deleteAccounts = (id) => {
     credentials: "include",
   });
 };
-/* Accounts Report */
+
 /* Salary Delete */
-/* Teacher Delete */
 const deleteSalary = (id) => {
   return fetch(api_key + "salary/" + id, {
     method: "DELETE",
     credentials: "include",
   });
 };
+/* Visitor Delete */
+const deleteVisitor = (id) => {
+  return fetch(api_key + "visitor/" + id, {
+    method: "DELETE",
+    credentials: "include",
+  });
+};
+
 
 export {
+  visitorReportByDate,
+  deleteVisitor,
   deleteSalary,
   getTeacherOrStaffById,
   adminLogin,

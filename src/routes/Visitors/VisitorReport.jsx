@@ -2,35 +2,25 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { transactions } from "@/lib/api";
+import { visitorReportByDate } from "@/lib/api";
 import GenerateVisitorReport from "./GenerateVisitorReport";
 import VisitorCount from "./VisitorCount";
+import Alert2 from "@/components/app_components/Alert2";
 const VisitorReport = () => {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [reportData, setReportData] = useState([]);
-    const [income, setIncome] = useState("");
-    const [expense, setExpense] = useState("");
-    const [totalCost, setTotalCost] = useState("");
+    const [totalVisitors, setTotalVisitors] = useState(0);
 
     const reportHandler = (e) => {
         e.preventDefault();
-        transactions(start, end)
+        visitorReportByDate(start, end)
             .then((res) => res.json())
             .then((data) => {
-                console.log(data)
-                setReportData(data);
-                // total income data
-                const totalIncome = data.transactions.reduce((acc, curr) => {
-                    return acc + parseFloat(curr.amount);
-                }, 0);
-                setIncome(totalIncome);
-                console.log(totalIncome);
+                setTotalVisitors(data.totalVisitors);
+                setReportData(data.visitors);
             });
     };
-
-    console.log(reportData);
-
     return (
         <>
             {" "}
@@ -61,13 +51,16 @@ const VisitorReport = () => {
                 </form>
             </div>
             {/* View Account */}
-            <VisitorCount />
-            <GenerateVisitorReport
-                regularFee={reportData.transactions}
-                start={start}
-                end={end}
-                data={reportData}
-            />
+            {
+                reportData.length == 0 ? <Alert2 title="No data found!" /> : <>
+                    <VisitorCount totalVisitors={totalVisitors} />
+                    <GenerateVisitorReport
+                        start={start}
+                        end={end}
+                        data={reportData} />
+                </>
+            }
+
         </>
     );
 };
