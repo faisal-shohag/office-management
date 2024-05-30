@@ -2,9 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { feeReportByDate } from "@/lib/api";
-import GenerateFeeReport from "./GenerateFeeReport";
-const FeeReport = () => {
+import { feeReportByDate, transactions } from "@/lib/api";
+import GenerateTransectionReport from "./GenerateTransectionReport";
+const TotalTransection = () => {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [reportData, setReportData] = useState([]);
@@ -14,26 +14,27 @@ const FeeReport = () => {
 
   const reportHandler = (e) => {
     e.preventDefault();
-    feeReportByDate(start, end)
+    transactions(start, end)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         setReportData(data);
         // total income data
-        const totalIncome = data.regular_fee.reduce((acc, curr) => {
-          return acc + parseFloat(curr.total);
+        const totalIncome = data.transactions.reduce((acc, curr) => {
+          return acc + parseFloat(curr.amount);
         }, 0);
         setIncome(totalIncome);
         console.log(totalIncome);
       });
   };
 
-  console.log(income);
+  console.log(reportData);
 
   return (
     <>
       {" "}
       <div style={{ overflow: "hidden" }}>
-        <h1 className="text-2xl font-bold mb-3">Report Details</h1>
+        <h1 className="text-2xl font-bold mb-3">All Report Details</h1>
         <form className="border p-5 rounded" onSubmit={reportHandler}>
           <div className="grid grid-cols-1 md:grid-cols-2 mt-3 gap-4">
             <label htmlFor="Assign Teacher" className="md:col-span-1">
@@ -59,16 +60,14 @@ const FeeReport = () => {
         </form>
       </div>
       {/* View Account */}
-      <GenerateFeeReport
-        regularFee={reportData.regular_fee}
+      <GenerateTransectionReport
+        regularFee={reportData.transactions}
         start={start}
         end={end}
-        income={income}
-        expense={expense}
-        totalCost={totalCost}
+        data={reportData}
       />
     </>
   );
 };
 
-export default FeeReport;
+export default TotalTransection;

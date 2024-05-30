@@ -14,17 +14,17 @@ import { Label } from "../ui/label";
 import { attendanceUpdate } from "@/lib/api";
 const ClassAttendanceTable = ({ students, date, updateAttendanceTable }) => {
 
-  const handleStatus =  (studentId, isPresent, attendanceId, classId, sectionId) => {
+  const handleStatus = (studentId, isPresent, attendanceId, classId, sectionId) => {
 
-    attendanceUpdate({isPresent: !isPresent}, studentId, date, attendanceId)
-    .then(res=>res.json())
-    .then(data=> {
-      console.log(data)
-      updateAttendanceTable(classId, date, sectionId)
-    })
-    .catch(err=> {
-      console.log(err)
-    })
+    attendanceUpdate({ isPresent: !isPresent }, studentId, date, attendanceId)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        updateAttendanceTable(classId, date, sectionId)
+      })
+      .catch(err => {
+        console.log(err)
+      })
 
 
   };
@@ -35,7 +35,7 @@ const ClassAttendanceTable = ({ students, date, updateAttendanceTable }) => {
         <Alert
           title="No students is admitted to this class/(Section)!"
           subtitle="Add students to see."
-          link="/dashboard/add-students"
+          link="/add-students"
           linktitle="Add"
         />
       ) : (
@@ -54,13 +54,21 @@ const ClassAttendanceTable = ({ students, date, updateAttendanceTable }) => {
             {students.map((student) => (
               <TableRow key={student.email}>
                 <TableCell className="hidden sm:table-cell">
-                  <img
-                    alt="Product image"
-                    className="aspect-square rounded-md object-cover"
-                    height="64"
-                    src={`http://localhost:5000/image/students/${student.id_no}`}
-                    width="64"
-                  />
+                  {
+                    student.image ? <img
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src={student.image?.data.thumb.url}
+                      width="64"
+                    /> : <img
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                      width="64"
+                    />
+                  }
                   {/* <ImageView imageUrl={`http://localhost:5000/image/students/${student.id_no}`} defaultImageUrl="https://static.vecteezy.com/system/resources/thumbnails/006/487/917/small_2x/man-avatar-icon-free-vector.jpg"/> */}
                 </TableCell>
                 <TableCell className="font-medium">{student.id_no}</TableCell>
@@ -70,7 +78,7 @@ const ClassAttendanceTable = ({ students, date, updateAttendanceTable }) => {
                 <TableCell className="hidden md:table-cell">
 
                   <div className="flex items-center space-x-2">
-                    <Switch onCheckedChange={()=>{handleStatus(student.id, student.isPresent, student.attendanceId, student.classId, student.sectionId)}} checked={student.isPresent}  id="airplane-mode" />
+                    <Switch onCheckedChange={() => { handleStatus(student.id, student.isPresent, student.attendanceId, student.classId, student.sectionId) }} checked={student.isPresent} id="airplane-mode" />
                     <Label htmlFor="airplane-mode">
                       {student.isPresent ? "Present" : "Absent"}
                     </Label>

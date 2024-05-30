@@ -407,7 +407,7 @@ const AddTeacher = () => {
 
               <div className="">
                 <div className="mt-2 font-medium">
-                  Select classes to assign:
+                  Select courses to assign:
                 </div>
                 <div className="mt-3 font-medium flex gap-4">
                   {classes.map((cls, index) => (

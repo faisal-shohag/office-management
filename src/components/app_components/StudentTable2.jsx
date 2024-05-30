@@ -21,7 +21,7 @@ import { deleteStudent } from "@/lib/api";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Alert from "./Alert";
-const StudentTable2 = ({ students ,courseClassHandler}) => {
+const StudentTable2 = ({ students, courseClassHandler }) => {
   const [_students, setStudents] = useState(students);
   //  console.log(students)
 
@@ -50,7 +50,7 @@ const StudentTable2 = ({ students ,courseClassHandler}) => {
         <Alert
           title="You have not added any Students yet!"
           subtitle="Here you can manage students!"
-          link="/dashboard/add-students"
+          link="/add-students"
           linktitle="Add"
         />
       ) : (
@@ -76,13 +76,21 @@ const StudentTable2 = ({ students ,courseClassHandler}) => {
             {students.map((student) => (
               <TableRow key={student.email}>
                 <TableCell className="hidden sm:table-cell">
-                  <img
-                    alt="Product image"
-                    className="aspect-square rounded-md object-cover"
-                    height="64"
-                    src={`http://localhost:5000/image/students/${student.id_no}`}
-                    width="64"
-                  />
+                  {
+                    student.image ? <img
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src={student.image?.data.thumb.url}
+                      width="64"
+                    /> : <img
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                      width="64"
+                    />
+                  }
                   {/* <ImageView imageUrl={`http://localhost:5000/image/students/${student.id_no}`} defaultImageUrl="https://static.vecteezy.com/system/resources/thumbnails/006/487/917/small_2x/man-avatar-icon-free-vector.jpg"/> */}
                 </TableCell>
                 <TableCell className="font-medium">{student.id_no}</TableCell>
@@ -107,7 +115,7 @@ const StudentTable2 = ({ students ,courseClassHandler}) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <Link to={`/dashboard/student-profile/${student.id_no}`}>
+                      <Link to={`/student-profile/${student.id_no}`}>
                         {" "}
                         <DropdownMenuItem>View</DropdownMenuItem>
                       </Link>

@@ -11,6 +11,16 @@ const adminLogin = (email, password) => {
   });
 };
 
+/* ALL  Report By Date */
+const transactions = (startDate, endDate) => {
+  return fetch(api_key + `transactions?startDate=${startDate}&endDate=${endDate}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+};
+
 //Add Class
 const classAdd = (data) => {
   return fetch(api_key + "class_add", {
@@ -601,4 +611,5 @@ export {
   classUpdate,
   teacherUpdate,
   staffUpdate,
+  transactions
 };

@@ -8,13 +8,14 @@ import { Download } from "lucide-react";
 import React from "react";
 import generatePDF, { Margin, Resolution, usePDF } from "react-to-pdf";
 
-const GenerateFeeReport = ({ regularFee, start, end, income }) => {
+const GenerateTransectionReport = ({ regularFee, start, end, data }) => {
+
   const { targetRef } = usePDF();
   const downloadHandler = () => {
     // setTimeout(() => {
     //const id = parseInt(document.getElementById("student_id2").value);
     generatePDF(targetRef, {
-      filename: `FEE_REPORT.pdf`,
+      filename: `TOTAL_REPORT.pdf`,
       method: open,
       resolution: Resolution.HIGH,
       page: {
@@ -22,9 +23,11 @@ const GenerateFeeReport = ({ regularFee, start, end, income }) => {
       },
     });
   };
+
+  console.log(regularFee);
   return (
     <TooltipProvider>
-      {regularFee ? (
+      {data.length !== 0 ? (
         <>
           <div className="mt-5">
             <Button
@@ -46,7 +49,7 @@ const GenerateFeeReport = ({ regularFee, start, end, income }) => {
                   <div className="flex justify-center mt-2 mx-auto items-center">
                     <div className="text-center">
                       <h1 className="text-4xl font-bold mb-6">
-                        Regular Fee Report
+                        Total Report
                       </h1>
                     </div>
                   </div>
@@ -71,33 +74,22 @@ const GenerateFeeReport = ({ regularFee, start, end, income }) => {
                         <div>
                           <b>DATE</b>
                           <p>=========</p>
-                          <p>{dateTime(new Date(item.collectionDate))}</p>
+                          <p>{dateTime(new Date(item.date))}</p>
                         </div>
                         <div>
-                          <b>REGULAR FEE</b>
+                          <b>PURPOSE </b>
                           <p>===================</p>
-                          <p>{item.regular_fee} ৳</p>
+                          <p>{item.name} </p>
                         </div>
                         <div>
-                          <b>FINE</b>
+                          <b>TYPE</b>
                           <p>===================</p>
-                          {item.fine} ৳
+                          {item.type} 
                         </div>
                         <div>
-                          <b>ID FEE</b>
+                          <b>AMOUNT</b>
                           <p>===================</p>
-                          {item.id_card_fee} ৳
-                        </div>
-                        <div>
-                          <b>DUE</b>
-                          <p>===================</p>
-                          {item.due} ৳
-                        </div>
-
-                        <div>
-                          <b>TOTAL</b>
-                          <p>===================</p>
-                          {item.total}
+                          {item.amount} ৳
                         </div>
                       </div>
                     ))}
@@ -105,12 +97,11 @@ const GenerateFeeReport = ({ regularFee, start, end, income }) => {
                     <div>
                       <div className="ml-6 flex justify-between border-b-2 border-black items-center font-bold align-middle"></div>
                       <div className="flex justify-between ml-6 border-b-2 border-black items-center font-bold">
-                        <p>TOTAL FEE</p>
+                        <p>TOTAL HISTORY</p>
                         <div className="flex justify-between gap-6 lg:mr-20 mb-10 mt-10 ">
-                          <p className="lg:mr-16">
-                            INCOME: {income} ৳
-                          </p>
-                          <p className="">TOTAL: {income} ৳</p>
+                          <p className="lg:mr-16">INCOME: {data.totalIncome} ৳</p>
+                          <p className="lg:mr-16">EXPENSE: {data.totalExpense} ৳</p>
+                          <p className="">NET: {data.total} ৳</p>
                         </div>
                       </div>
                     </div>
@@ -127,4 +118,4 @@ const GenerateFeeReport = ({ regularFee, start, end, income }) => {
   );
 };
 
-export default GenerateFeeReport;
+export default GenerateTransectionReport;

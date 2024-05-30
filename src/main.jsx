@@ -47,6 +47,9 @@ import EditTeacher from './routes/Teachers/EditTeacher';
 import EditStuff from './routes/Staffs/EditStuff';
 import Settings from './routes/Settings/Settings';
 import PrivateRoute from './routes/PrivateRoute';
+import TotalTransection from './routes/TotalTransection/TotalTransection';
+import AddVisitor from './routes/Visitors/AddVisitor';
+import VisitorReport from './routes/Visitors/VisitorReport';
 
 const router = createBrowserRouter([
   {
@@ -201,6 +204,18 @@ const router = createBrowserRouter([
       {
         path: "/staffs-edit/:id",
         element: <EditStuff />,
+      },
+      {
+        path: "/total-transection",
+        element: <TotalTransection />,
+      },
+      {
+        path: "/add-visitor",
+        element: <AddVisitor />,
+      },
+      {
+        path: "/view-visitor-report",
+        element: <VisitorReport />,
       },
     ]
   },

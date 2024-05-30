@@ -199,7 +199,7 @@ const AddAttendance = () => {
               <Alert
                 title="You have not added any course yet!"
                 subtitle="To create section, create course first!"
-                link="/dashboard/add-classes"
+                link="/add-classes"
                 linktitle="Add"
               />
             )}

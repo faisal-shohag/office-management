@@ -206,7 +206,7 @@ const AddStudents = () => {
       return;
     }
 
-  
+
     let _data;
     let Id;
     if (data.classId.includes("|")) {
@@ -244,13 +244,13 @@ const AddStudents = () => {
               studentId: d.updated.id,
               readmission: true,
             });
-            setTimeout(()=>{
+            setTimeout(() => {
               idGenerate(watch("classId"));
-            },3000)
+            }, 3000)
             if (image) {
               uploadFile(d.updated.id_no.toString());
             }
-          }).catch(err=>{
+          }).catch(err => {
             console.log(err)
           }),
         {
@@ -283,11 +283,11 @@ const AddStudents = () => {
             readmission: false,
           });
 
-          setTimeout(()=>{
+          setTimeout(() => {
             idGenerate(watch("classId"));
-          },3000)
+          }, 3000)
 
-          
+
 
           if (image) {
             uploadFile(d.created.id_no.toString());
@@ -362,7 +362,7 @@ const AddStudents = () => {
     }
   };
 
-  const [student, setStudent]  = useState(null)
+  const [student, setStudent] = useState(null)
 
   const findStudent = () => {
     const id = document.getElementById("student_id").value;
@@ -397,9 +397,8 @@ const AddStudents = () => {
         error: (error) => <b>{error.message}</b>,
       }
     );
-
-    
   };
+
 
   return (
     <>
@@ -409,7 +408,7 @@ const AddStudents = () => {
             <Alert
               title="You have not added your Institute Information!"
               subtitle="Please add institution informaton first!"
-              link="/dashboard/admin-settings"
+              link="/admin-settings"
               linktitle="Add"
             />
           ) : (
@@ -428,7 +427,7 @@ const AddStudents = () => {
                     <Alert
                       title="You have not added course yet!"
                       subtitle="To add students, create course first!"
-                      link="/dashboard/add-classes"
+                      link="/add-classes"
                       linktitle="Add"
                     />
                   ) : (
@@ -1112,7 +1111,7 @@ const AddStudents = () => {
                                     placeholder="Local Guardians Phone Number"
                                   />
                                 </label>
-                              {/*   <label
+                                {/*   <label
                                   htmlFor="Local Guardians Phone Number"
                                   className="md:col-span-1"
                                 >
@@ -1138,17 +1137,17 @@ const AddStudents = () => {
                                           type="file"
                                           accept="image/*"
                                         />
-                                       {
-                                        student?.image ?  <img
-                                        id="logo"
-                                        className="h-[70px]"
-                                        src={student.image.data.image.url}
-                                      />:  <img
-                                      id="logo"
-                                      className="h-[70px]"
-                                      src="https://i.postimg.cc/rF77ZXQj/image.png"
-                                    />
-                                       }
+                                        {
+                                          student?.image ? <img
+                                            id="logo"
+                                            className="h-[70px]"
+                                            src={student.image.data.image.url}
+                                          /> : <img
+                                            id="logo"
+                                            className="h-[70px]"
+                                            src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                                          />
+                                        }
                                       </div>
                                     </label>
                                   </div>
@@ -1156,7 +1155,7 @@ const AddStudents = () => {
                                     Choose Student Photo
                                   </div>
                                 </div>
-                                
+
 
                                 <Button
                                   size="sm"
@@ -1502,60 +1501,60 @@ const AddStudents = () => {
                               </dl>
                             </div>
                           </CardContent>
-                         
+
                           <hr></hr>
-                            {/* Admission Condition */}
-                            <div
-                              className="p-5"
-                              style={{ fontFamily: "Hind Siliguri" }}
-                            >
-                              <h1 className="text-center text-2xl mb-3">
-                                ভর্তির শর্তাবলী{" "}
-                              </h1>
-                              <ul>
-                                <li className="mb-3">
-                                  ১। কোর্স ফি দুই বা তিন কিস্তিতে পরিশোধ করা
-                                  যাবে ।
-                                </li>
-                                <li className="mb-3">
-                                  ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয় ।{" "}
-                                </li>
-                                <li className="mb-3">
-                                  ৩। অনিয়মিত প্রশিক্ষণার্থীদের সার্টিফিকেট
-                                  প্রদান করা হবে নাহ ।{" "}
-                                </li>
-                                <li>
-                                  ৪। আপনার যে কোন অসংগতি ব্যবহারের জন্য
-                                  কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে ।{" "}
-                                </li>
-                              </ul>
+                          {/* Admission Condition */}
+                          <div
+                            className="p-5"
+                            style={{ fontFamily: "Hind Siliguri" }}
+                          >
+                            <h1 className="text-center text-2xl mb-3">
+                              ভর্তির শর্তাবলী{" "}
+                            </h1>
+                            <ul>
+                              <li className="mb-3">
+                                ১। কোর্স ফি দুই বা তিন কিস্তিতে পরিশোধ করা
+                                যাবে ।
+                              </li>
+                              <li className="mb-3">
+                                ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয় ।{" "}
+                              </li>
+                              <li className="mb-3">
+                                ৩। অনিয়মিত প্রশিক্ষণার্থীদের সার্টিফিকেট
+                                প্রদান করা হবে নাহ ।{" "}
+                              </li>
+                              <li>
+                                ৪। আপনার যে কোন অসংগতি ব্যবহারের জন্য
+                                কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে ।{" "}
+                              </li>
+                            </ul>
+                          </div>
+                          <hr></hr>
+                          {/* Signature */}
+                          <div className="flex flex-row justify-between p-5 text-center">
+                            <div>
+                              <p>{/* {watch('payment_received')} */}Atif Islam</p>
+                              <Separator className="my-2" />
+                              <b>Received By</b>
                             </div>
-                            <hr></hr>
-                            {/* Signature */}
-                            <div className="flex flex-row justify-between p-5 text-center">
-                              <div>
-                                <p>{/* {watch('payment_received')} */}Atif Islam</p>
-                                <Separator className="my-2" />
-                                <b>Received By</b>
-                              </div>
-                              <div>
-                                <p>সৈয়দ মুহীউদ্দীন ফাহাদ</p>
-                                <Separator className="my-2" />
-                                <b>Founder</b>
-                              </div>
+                            <div>
+                              <p>সৈয়দ মুহীউদ্দীন ফাহাদ</p>
+                              <Separator className="my-2" />
+                              <b>Founder</b>
                             </div>
-                            <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 pt-2 justify-between bg-[#2b74ba] text-white">
-                              <div className="text-xs">
-                                <h1>|| {admin.inst_address} || </h1>
-                              </div>
-                              <div className="text-xs">
-                                <h1>|| {admin.inst_email} || </h1>
-                              </div>
-                              <div className="text-xs ">
-                                <h1>|| {admin.inst_phone} ||</h1>
-                              </div>
-                            </CardFooter>
-                            {/* End Footer */}
+                          </div>
+                          <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 pt-2 justify-between bg-[#2b74ba] text-white">
+                            <div className="text-xs">
+                              <h1>|| {admin.inst_address} || </h1>
+                            </div>
+                            <div className="text-xs">
+                              <h1>|| {admin.inst_email} || </h1>
+                            </div>
+                            <div className="text-xs ">
+                              <h1>|| {admin.inst_phone} ||</h1>
+                            </div>
+                          </CardFooter>
+                          {/* End Footer */}
                         </Card>
                       </div>
                     </div>

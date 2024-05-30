@@ -135,17 +135,6 @@ const ClassView = () => {
                 </div>
               </CardContent>
             </Card>
-            {/*  <Card x-chunk="dashboard-01-chunk-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Subjects
-              </CardTitle>
-              <IoBookOutline className="h-5 w-5 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{_class.subject.length}</div>
-            </CardContent>
-          </Card> */}
           </div>
           <hr></hr>
           <div className="grid grid-cols-1 lg:grid-cols-2 mt-3 gap-4">

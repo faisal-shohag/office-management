@@ -111,7 +111,7 @@ export default function Class() {
                   <Button size="sm" className="h-8 gap-1">
                     <PlusCircle className="h-3.5 w-3.5" />
                     <Link
-                      to="/dashboard/add-classes"
+                      to="/add-classes"
                       className="sr-only sm:not-sr-only sm:whitespace-nowrap"
                     >
                       Add Course

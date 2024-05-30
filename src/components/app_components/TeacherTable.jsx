@@ -38,7 +38,7 @@ const TeacherTable = ({ teachers }) => {
         <Alert
           title="You have not added any Teacher yet!"
           subtitle="Here you can manage teachers!"
-          link="/dashboard/add-teachers"
+          link="/add-teachers"
           linktitle="Add"
         />
       ) : (

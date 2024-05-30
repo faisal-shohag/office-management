@@ -35,6 +35,7 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Providers/AuthProvider";
 import { ModeToggle } from "@/components/theme/toggle-theme";
+import { MdVisibility } from "react-icons/md";
 
 const Dashboard = () => {
   const { changeUserState, admin, AdminLogout } = useContext(AuthContext);
@@ -56,6 +57,7 @@ const Dashboard = () => {
 
   const [accountsNav, setAccountsNav] = useState(false);
   const [attendanceNav, setAttendanceNav] = useState(false);
+  const [visitorNav, setVisitorNav] = useState(false);
 
   const closeAllMenus = () => {
     setStudentNav(false);
@@ -67,6 +69,7 @@ const Dashboard = () => {
     setSalaryNav(false);
     setAccountsNav(false);
     setAttendanceNav(false);
+    setVisitorNav(false)
   };
 
   const studentNavHandler = (e) => {
@@ -114,6 +117,12 @@ const Dashboard = () => {
     localStorage.setItem("navItem", e.target.id);
     closeAllMenus();
     setSalaryNav(!salaryNav);
+  };
+  const visitorNavHandler = (e) => {
+    const id = e.target.parentNode.parentNode.id;
+    localStorage.setItem("navItem", id);
+    closeAllMenus();
+    setVisitorNav(!visitorNav);
   };
   // const attendanceNavHandler = (e) => {
   //   localStorage.setItem("navItem", e.target.id);
@@ -490,6 +499,45 @@ const Dashboard = () => {
                     >
                       <Dot className="h-8 w-8" />
                       View Reports
+                    </NavLink>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {/* Visitor Start */}
+                <button id="acc" className="" onClick={visitorNavHandler}>
+                  <div className="flex items-center justify-between">
+                    <a
+                      href="#"
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2 mt-2 text-muted-foreground transition-all `}
+                    >
+                      <MdVisibility className="h-4 w-4" />
+                      Visitors
+                    </a>
+                    {visitorNav ? (
+                      <Minus className="mt-2 h-4" />
+                    ) : (
+                      <Plus className="mt-2 h-4" />
+                    )}
+                  </div>
+                </button>
+                {visitorNav ? (
+                  <div className="fadeInDown">
+                    <NavLink
+                      to="/add-visitor"
+                      className={`flex items-center rounded-lg px-3 py-1 mb-1 ml-3 text-muted-foreground transition-all hover:text-white hover:bg-primary`}
+                      onClick={() => setSelectedMenu("add-visitor")}
+                    >
+                      <Dot className="h-8 w-8" />
+                      Add Visitors
+                    </NavLink>
+                    <NavLink
+                      to="/view-visitor-report"
+                      className={`flex items-center rounded-lg px-3 py-1 ml-3 text-muted-foreground transition-all hover:text-white hover:bg-primary`}
+                      onClick={() => setSelectedMenu("view-visitor-report")}
+                    >
+                      <Dot className="h-8 w-8" />
+                      Visitors Reports
                     </NavLink>
                   </div>
                 ) : (

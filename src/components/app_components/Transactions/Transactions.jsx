@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import{ useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Table,
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/card";
 
 import { dateTime, getStudentById } from "@/lib/api";
-const Transactions = ({getData}) => {
+const Transactions = ({ getData }) => {
   const [student, setStudent] = useState(null);
   const [isData, setIsData] = useState(false);
   const [admissionFee, setAdmissionFee] = useState([]);
@@ -52,75 +52,74 @@ const Transactions = ({getData}) => {
   console.log(student);
   return (
     <div>
-       <div className="border mt-4 rounded-md">
-                    <CardHeader className="flex flex-row items-center">
-                      <div className="grid gap-2">
-                        <CardTitle>Transactions</CardTitle>
-                        <CardDescription>
-                          Recent transactions.
-                        </CardDescription>
-                      </div>
-                      {/* <Button asChild size="sm" className="ml-auto gap-1">
+      <div className="border mt-4 rounded-md">
+        <CardHeader className="flex flex-row items-center">
+          <div className="grid gap-2">
+            <CardTitle>Transactions</CardTitle>
+            <CardDescription>
+              Recent transactions.
+            </CardDescription>
+          </div>
+          {/* <Button asChild size="sm" className="ml-auto gap-1">
                         <Link to="#">
                           View All
                           <ArrowUpRight className="h-4 w-4" />
                         </Link>
                       </Button> */}
-                    </CardHeader>
-                    <CardContent>
-                       <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Fee Type</TableHead>
-                            {/* <TableHead className="hidden xl:table-column">
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Fee Type</TableHead>
+                {/* <TableHead className="hidden xl:table-column">
                               Type
                             </TableHead> */}
-                            {/* <TableHead className="hidden xl:table-column">
+                {/* <TableHead className="hidden xl:table-column">
                               Status
                             </TableHead> */}
-                            {/* <TableHead className="hidden xl:table-column">
+                {/* <TableHead className="hidden xl:table-column">
                               Date
                             </TableHead> */}
-                            <TableHead className="text-right">Amount</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                        {
-                          admissionFee.map(fee=>
-                            <TableRow key={fee.id}>
-                            <TableCell>
-                              <div className="font-medium">Admission Fee</div>
-                              <div className="hidden text-sm text-muted-foreground md:inline">
-                                {dateTime(new Date(fee.collectionDate))}
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              ৳{(fee.fee + fee.other) - fee.discount}
-                            </TableCell>
-                          </TableRow>
-                          )
-                        }
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {
+                admissionFee.map(fee =>
+                  <TableRow key={fee.id}>
+                    <TableCell>
+                      <div className="font-medium">Admission Fee</div>
+                      <div className="hidden text-sm text-muted-foreground md:inline">
+                        {dateTime(new Date(fee.collectionDate))}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      ৳{(fee.fee + fee.other) - fee.discount}
+                    </TableCell>
+                  </TableRow>
+                )
+              }
 
-                        {
-                          regularFee.map(fee=>
-                            <TableRow key={fee.id}>
-                            <TableCell>
-                              <div className="font-medium">Regular Fee</div>
-                              <div className="hidden text-sm text-muted-foreground md:inline">
-                                {dateTime(new Date(fee.collectionDate))}
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              ৳{fee.total}
-                            </TableCell>
-                          </TableRow>
-                          )
-                        }
-                        </TableBody>
-                      </Table>
-                     
-                    </CardContent>
-                  </div>
+              {
+                regularFee.map(fee =>
+                  <TableRow key={fee.id}>
+                    <TableCell>
+                      <div className="font-medium">Regular Fee</div>
+                      <div className="hidden text-sm text-muted-foreground md:inline">
+                        {dateTime(new Date(fee.collectionDate))}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      ৳{fee.total}
+                    </TableCell>
+                  </TableRow>
+                )
+              }
+            </TableBody>
+          </Table>
+        </CardContent>
+      </div>
     </div>
   );
 };

@@ -60,7 +60,7 @@ const StudentTable = ({ students, studentFetchHandler }) => {
         <Alert
           title="You have not added any Students yet!"
           subtitle="Here you can manage students!"
-          link="/dashboard/add-students"
+          link="/add-students"
           linktitle="Add"
         />
       ) : (
@@ -84,21 +84,21 @@ const StudentTable = ({ students, studentFetchHandler }) => {
             {students.map((student) => (
               <TableRow key={student.email}>
                 <TableCell className="hidden sm:table-cell">
-                 {
-                  student.image ?  <img
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src={student.image?.data.thumb.url}
-                  width="64"
-                />:  <img
-                alt="Product image"
-                className="aspect-square rounded-md object-cover"
-                height="64"
-                src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-                width="64"
-              />
-                 }
+                  {
+                    student.image ? <img
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src={student.image?.data.thumb.url}
+                      width="64"
+                    /> : <img
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                      width="64"
+                    />
+                  }
                   {/* <ImageView imageUrl={`http://localhost:5000/image/students/${student.id_no}`} defaultImageUrl="https://static.vecteezy.com/system/resources/thumbnails/006/487/917/small_2x/man-avatar-icon-free-vector.jpg"/> */}
                 </TableCell>
                 <TableCell className="font-medium">{student.id_no}</TableCell>
