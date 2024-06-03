@@ -12,15 +12,57 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button';
-import { deleteVisitor } from "@/lib/api";
-import toast from "react-hot-toast";
+import * as XLSX from 'xlsx';
 
 const GenerateVisitorReport = ({ data, deleteHandler }) => {
-    /* Delete  */
-   
+    // convert excel
+
+    const _data = data.map(item => {
+        return {
+            date: item.date,
+            id: item.id,
+            name: item.name,
+            email: item.email,
+            phone: item.phone,
+            address: item.address,
+            classes: item.classes.join(', '),
+        }
+    })
+
+    const convertExcel = () => {
+        // Create a new worksheet and add data to it 
+
+        const worksheet = XLSX.utils.json_to_sheet(_data);
+
+        // Create a new workbook and append the worksheet to it 
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "visitors");
+
+        // Adjust column width 
+        const wscols = [
+            { wch: 10 }, // id 
+            { wch: 15 }, // date 
+            { wch: 15 }, // month 
+            { wch: 10 }, // amount 
+            { wch: 10 }, // status 
+        ];
+        worksheet["!cols"] = wscols;
+
+        // Save the workbook to a file 
+        XLSX.writeFile(workbook, "visitors.xlsx");
+    }
+
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            {/* Convert Excel Sheet */}
+            <Button
+                size="sm"
+                className="h-8 gap-1 mt-5 col-span-2 mb-5 ml-5 bg-[green]"
+                onClick={convertExcel}
+            >
+                Convert To Excel
+            </Button>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -82,6 +124,8 @@ const GenerateVisitorReport = ({ data, deleteHandler }) => {
                     }
                 </tbody>
             </table>
+
+            {/* <button onClick={convertExcel}>Convert To Excel</button> */}
         </div>
 
     );
