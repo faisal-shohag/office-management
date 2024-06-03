@@ -1,6 +1,8 @@
-import { issueAdd } from "@/lib/api";
-import { CheckCircle, PlusCircle, Send } from "lucide-react";
-import { useState } from "react";
+import Loading from "@/components/app_components/Loading";
+import { dateTime, getIssues, issueAdd } from "@/lib/api";
+
+import { CheckCircle, PlusCircle, Send, Tag } from "lucide-react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const Issue = () => {
@@ -105,6 +107,7 @@ const Issue = () => {
             .then((res) => res.json())
             .then((d) => {
                 if (d.err) throw new Error(d.err);
+                getUpdatedIssue()
             }),
         {
             loading: "Reporting an issue...",
@@ -113,6 +116,33 @@ const Issue = () => {
         }
     );
   };
+
+  const getUpdatedIssue = () => {
+    getIssues()
+      .then((res) => res.json())
+      .then((d) => {
+        setIssues(d);
+      });
+  
+  }
+
+  const [issues, setIssues] = useState([])
+
+  const [isData, setIsData] = useState(false)
+
+
+  useEffect(() => {
+    getIssues()
+    .then(res=> res.json())
+    .then(d => {
+      setIssues(d)
+      setIsData(true)
+    })
+  }, [])
+
+//   console.log(issues)
+
+  
 
 
   return (
@@ -130,16 +160,43 @@ const Issue = () => {
         </div>
       </div>
 
-      <div className="">
-        <div className="mt-2 font-medium">Select a feature where you are facing issue:</div>
+      <div className="border p-5 rounded-xl">
+        <div className="font-bold">All Issues</div>
+        {isData ? <div className="overflow-y-auto max-h-[500px]">
+        {
+            issues.map((issue) => (
+                <div key={issue.id} className="mt-2 text-sm rounded-xl border p-3">
+                    <div className="flex justify-between">
+                    <div className="flex gap-1">
+                        {issue.feature.map((f, index) => <div className="text-xs  rounded-sm px-1 py-1 bg-yellow-500 text-white" key={index}>{f}</div>)}
+                    </div>
+                    <div className="text-xs text-white">{issue.isSolved ? <div className="bg-green-500 rounded-full p-1">Solved</div> : <div className="bg-red-500 rounded-full p-1">Opened</div>}</div>
+                    </div>
+                   <div>
+                   <div className="flex items-center gap-2 mt-1">
+                    <div className="text-gray-600"><Tag size={18}/></div>
+                    <div className="font-bold">{issue.issue}</div>
+                    </div>
+                    <div className="text-xs mt-1 text-gray-400">{dateTime(new Date(issue.date))}</div>
+                   </div>
+                </div>
+            ))
+        }
+        </div> : <Loading/>}
+      </div>
+
+
+
+      <div className="border px-2 py-2 rounded-xl">
+        <div className=" font-medium">Select a feature where you are facing issue:</div>
         <div className="mt-3 font-medium grid lg:grid-cols-10 md:grid-cols-3 gap-2">
           {allfeatures.map((feature, index) => (
             <div
-              key={feature.id}
+              key={index}
               onClick={() => handleFeatureSelect(index)}
               className="flex items-center gap-1 border p-1 justify-center rounded-xl cursor-pointer hover:bg-gray-100 text-sm"
             >
-              <div>{feature.title}</div>{" "}
+              <div>{feature.title}</div>
               {feature.selected ? (
                 <CheckCircle size={10} />
               ) : (

@@ -426,6 +426,13 @@ const visitorReportByDate = (startDate, endDate) => {
   );
 };
 
+const getIssues = () => {
+  return fetch(api_key + "issues", {
+    method: "GET",
+    credentials: "include",
+  });
+};
+
 //----------------------------------------------
 //UPDATE
 
@@ -663,5 +670,6 @@ export {
   transactions,
   visitorsAdd,
   getVisitors,
-  issueAdd
+  issueAdd,
+  getIssues
 };
