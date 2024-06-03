@@ -27,7 +27,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AdmissionFeeAdd,
   dateTime,
-  fetchImageAndConvertToDataURI,
   formDate,
   getClasses,
   getLastStudent,
@@ -329,16 +328,11 @@ const AddStudents = () => {
         console.log(err);
       });
 
-    const loadImageDataURI = async () => {
-      const dataURI = await fetchImageAndConvertToDataURI("inst", "logo");
-      setImageDataURI(dataURI);
-    };
 
     if (admin) {
       setInfo(admin);
       setIsData3(true);
     }
-    loadImageDataURI();
   }, [setValue, admin]);
 
   const [class_, setCls] = useState("");
@@ -383,7 +377,7 @@ const AddStudents = () => {
           setValue("date_of_birth", formDate(d.date_of_birth));
           setValue("id_no", id);
           setValue("gender", d.gender);
-          setValue("blood_group", d.blood_group.toUpperCase());
+          // setValue("blood_group", d.blood_group.toUpperCase());
           setValue("birth_certificate_no", d.birth_certificate_no);
           setValue("parent_name", d.parent_name);
           setValue("parent_phone", d.parent_phone);
@@ -685,14 +679,14 @@ const AddStudents = () => {
                                 </label>
                                 <label
                                   htmlFor="Blood Group"
-                                  className="md:col-span-1"
+                                  className="md:col-span-1 hidden"
                                 >
                                   Blood Group
                                   <Select
                                     onValueChange={(value) =>
                                       setValue("blood_group", value)
                                     }
-                                    required
+                                    // required
                                   >
                                     <SelectTrigger>
                                       <SelectValue placeholder="Select Blood Group" />
@@ -1022,13 +1016,13 @@ const AddStudents = () => {
                                 </label>
                                 <label
                                   htmlFor="Blood Group"
-                                  className="md:col-span-1"
+                                  className="md:col-span-1 hidden"
                                 >
                                   Blood Group
                                   <Input
                                     disabled
                                     {...register("blood_group", {
-                                      required: true,
+                                     
                                     })}
                                     type="text"
                                     name="blood_group"
