@@ -30,7 +30,6 @@ import {
   fetchImageAndConvertToDataURI,
   formDate,
   getClasses,
-  getImage,
   getLastStudent,
   getStudentById,
   studentAdd,
@@ -1406,8 +1405,8 @@ const AddStudents = () => {
                                 <div className="">
                                   <img
                                     alt="logo"
-                                    className="h-[80px]"
-                                    src={imageDataURI}
+                                    className="h-[70px]"
+                                    src='./inst_logo.webp'
                                   />
                                 </div>
 
@@ -1422,15 +1421,15 @@ const AddStudents = () => {
                                 </div>
                               </CardTitle>
 
-                              <div className="text-xl mt-2 font-bold">
+                              <div className="text-xl mt-1 font-bold">
                                 Admission Payment Receipt
                               </div>
                             </div>
                           </CardHeader>
-                          <CardContent className="p-6 text-sm">
+                          <CardContent className=" text-sm">
                             <div className="grid gap-3">
-                              <div className="font-semibold text-2xl">
-                                Student Information's
+                              <div className="font-semibold text-md">
+                                Student Information
                               </div>
                               <ul className="grid gap-3">
                                 <li className="flex items-center justify-between font-semibold">
@@ -1507,7 +1506,7 @@ const AddStudents = () => {
                           <hr></hr>
                           {/* Admission Condition */}
                           <div
-                            className="p-5"
+                            className="p-3"
                             style={{ fontFamily: "Hind Siliguri" }}
                           >
                             <h1 className="text-center text-2xl mb-3">
@@ -1533,14 +1532,7 @@ const AddStudents = () => {
                           </div>
                           <hr></hr>
                           {/* Signature */}
-                          <div className="flex flex-row justify-between p-5 text-center">
-                            <div>
-                              <p>{/* {watch('payment_received')} */}Atif Islam</p>
-                              <Separator className="my-2" />
-                              <b>Received By</b>
-                            </div>
-                            <hr></hr>
-                            {/* Signature */}
+              
                             <div className="flex flex-row justify-between p-5 text-center">
                               <div>
                                 <p>{incharge}</p>
@@ -1553,7 +1545,6 @@ const AddStudents = () => {
                                 <b>Founder</b>
                               </div>
                             </div>
-                          </div>
                           <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 pt-2 justify-between bg-[#2b74ba] text-white">
                             <div className="text-xs">
                               <h1>|| {admin.inst_address} || </h1>

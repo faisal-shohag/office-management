@@ -32,6 +32,7 @@ const VisitorReport = () => {
                 }
                 const newVisitors = reportData.filter((visitor) => visitor.id !== id);
                 setReportData(newVisitors);
+                setTotalVisitors(newVisitors.length);
                 
                 return res.json();
             }),
