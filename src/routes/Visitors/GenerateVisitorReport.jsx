@@ -15,25 +15,9 @@ import { Button } from '@/components/ui/button';
 import { deleteVisitor } from "@/lib/api";
 import toast from "react-hot-toast";
 
-const GenerateVisitorReport = ({ data }) => {
-    /* Delete Class */
-    const deleteHandler = (id) => {
-        toast.promise(
-            deleteVisitor(id).then((res) => {
-                if (!res.ok) {
-                    throw new Error("Failed to delete!");
-                }
-                // refresh site
-                window.location.reload();
-                return res.json();
-            }),
-            {
-                loading: "Deleting ...",
-                success: <b>Successfully deleted!</b>,
-                error: <b>Failed to delete.</b>,
-            }
-        );
-    };
+const GenerateVisitorReport = ({ data, deleteHandler }) => {
+    /* Delete  */
+   
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

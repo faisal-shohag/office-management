@@ -2,10 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { visitorReportByDate } from "@/lib/api";
+import { deleteVisitor, visitorReportByDate } from "@/lib/api";
 import GenerateVisitorReport from "./GenerateVisitorReport";
 import VisitorCount from "./VisitorCount";
 import Alert2 from "@/components/app_components/Alert2";
+import toast from "react-hot-toast";
 const VisitorReport = () => {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
@@ -21,6 +22,27 @@ const VisitorReport = () => {
                 setReportData(data.visitors);
             });
     };
+
+  
+    const deleteHandler = (id) => {
+        toast.promise(
+            deleteVisitor(id).then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to delete!");
+                }
+                const newVisitors = reportData.filter((visitor) => visitor.id !== id);
+                setReportData(newVisitors);
+                
+                return res.json();
+            }),
+            {
+                loading: "Deleting ...",
+                success: <b>Successfully deleted!</b>,
+                error: <b>Failed to delete.</b>,
+            }
+        );
+    };
+
     return (
         <>
             {" "}
@@ -57,7 +79,9 @@ const VisitorReport = () => {
                     <GenerateVisitorReport
                         start={start}
                         end={end}
-                        data={reportData} />
+                        data={reportData}
+                        deleteHandler={deleteHandler}
+                         />
                 </>
             }
 
