@@ -373,7 +373,7 @@ const AddStudents = () => {
           setValue("phone", d.phone);
           setValue("present_address", d.present_address);
           setValue("permanent_address", d.permanent_address);
-          setValue("email", d.email);
+          d.email && setValue("email", d.email);
           setValue("date_of_birth", formDate(d.date_of_birth));
           setValue("id_no", id);
           setValue("gender", d.gender);
@@ -543,9 +543,8 @@ const AddStudents = () => {
                                 >
                                   Email
                                   <Input
-                                    {...register("email", { required: true })}
+                                    {...register("email", { required: false })}
                                     type="email"
-                                    required
                                     name="email"
                                     placeholder="Email"
                                   />
@@ -896,9 +895,8 @@ const AddStudents = () => {
                                 >
                                   Email
                                   <Input
-                                    {...register("email", { required: true })}
+                                    {...register("email", { required: false })}
                                     type="email"
-                                    required
                                     name="email"
                                     placeholder="Email"
                                   />

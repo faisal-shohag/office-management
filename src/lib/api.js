@@ -187,6 +187,17 @@ const visitorsAdd = (data) => {
   });
 };
 
+//issues
+const issueAdd = (data) => {
+  return fetch(api_key + "issue_add", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ ...data }),
+  });
+};
 ////___________________________________________________________________________________________________________________////////
 
 //GET
@@ -651,5 +662,6 @@ export {
   staffUpdate,
   transactions,
   visitorsAdd,
-  getVisitors
+  getVisitors,
+  issueAdd
 };

@@ -35,7 +35,7 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Providers/AuthProvider";
 import { ModeToggle } from "@/components/theme/toggle-theme";
-import { MdVisibility } from "react-icons/md";
+import { MdReport, MdVisibility } from "react-icons/md";
 
 const Dashboard = () => {
   const { changeUserState, admin, AdminLogout } = useContext(AuthContext);
@@ -69,7 +69,7 @@ const Dashboard = () => {
     setSalaryNav(false);
     setAccountsNav(false);
     setAttendanceNav(false);
-    setVisitorNav(false)
+    setVisitorNav(false);
   };
 
   const studentNavHandler = (e) => {
@@ -161,7 +161,7 @@ const Dashboard = () => {
       <div className="sidebar grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
         <div className="hidden border-r bg-muted/40 md:block">
           <div className="flex h-full   max-h-screen flex-col gap-2">
-            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+            <div className="flex h-14 items-center border-b py-5 px-4 lg:h-[60px] lg:px-6">
               <Link href="/" className="flex items-center gap-2 font-semibold">
                 <Package2 className="h-6 w-6" />
                 <span className="">ADMIN</span>
@@ -543,6 +543,15 @@ const Dashboard = () => {
                 ) : (
                   ""
                 )}
+
+                <NavLink
+                  to="/issues"
+                  className={`flex items-center text-red-500 gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-primary hover:text-white`}
+                  
+                >
+                  <MdReport className="h-5 w-5 text-red-500" />
+                  Reports/Issues
+                </NavLink>
               </nav>
             </div>
           </div>

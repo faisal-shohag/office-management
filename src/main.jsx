@@ -51,6 +51,7 @@ import TotalTransection from './routes/TotalTransection/TotalTransection';
 import AddVisitor from './routes/Visitors/AddVisitor';
 import VisitorReport from './routes/Visitors/VisitorReport';
 import NotFound from './routes/NotFound';
+import Issue from './routes/Issue';
 
 const router = createBrowserRouter([
   {
@@ -219,6 +220,11 @@ const router = createBrowserRouter([
         path: "/view-visitor-report",
         element: <VisitorReport />,
       },
+      {
+        path: "/issues",
+        element: <Issue/>,
+      
+      }
     ]
   },
 

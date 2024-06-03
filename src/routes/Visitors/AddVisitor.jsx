@@ -20,6 +20,7 @@ const AddVisitor = () => {
     const [classes, setClasses] = useState([]);
     const [isData, setIsData] = useState(false);
     const [load, setLoad] = useState(true)
+    const [selectedClasses, setSelectedClasses] = useState([])
 
 
 
@@ -27,16 +28,18 @@ const AddVisitor = () => {
     const onSubmit = (data) => {
 
         let _data = { ...data };
-        let selectedClasses = classes.map((cls) => cls.name);
+        let visitorClasses = selectedClasses.map((cls) => cls.name);
 
-        if (selectedClasses.length == 0) {
+        if (visitorClasses.length == 0) {
             toast.error("Please select class to assign!")
             return
         }
 
         // Get Data
-        _data = { ..._data, classes: selectedClasses }
+        _data = { ..._data, classes: visitorClasses }
         console.log(_data);
+
+        
 
         toast.promise(
             visitorsAdd(_data)
@@ -74,7 +77,8 @@ const AddVisitor = () => {
 
     const handleClassSelect = (id) => {
         classes[id]["selected"] = !classes[id]["selected"];
-        setClasses([...classes]);
+        const visitorClass = classes.filter((cls) => cls.selected)
+        setSelectedClasses(visitorClass);
     };
 
 
