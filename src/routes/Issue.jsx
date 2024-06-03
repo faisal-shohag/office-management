@@ -155,7 +155,7 @@ const Issue = () => {
       >
         Reports/Issues
         <div className="text-sm">
-          Feeling lost? Drop your issues here. We will fixed them as soon as
+          Feeling lost? Drop your issues here. We will fix them as soon as
           possible.
         </div>
       </div>
@@ -168,7 +168,7 @@ const Issue = () => {
                 <div key={issue.id} className="mt-2 text-sm rounded-xl border p-3">
                     <div className="flex justify-between">
                     <div className="flex gap-1">
-                        {issue.feature.map((f, index) => <div className="text-xs  rounded-sm px-1 py-1 bg-yellow-500 text-white" key={index}>{f}</div>)}
+                        {issue.feature.map((f, index) => <div className="text-xs  rounded-sm px-1 py-1 bg-black text-white" key={index}>{f}</div>)}
                     </div>
                     <div className="text-xs text-white">{issue.isSolved ? <div className="bg-green-500 rounded-full p-1">Solved</div> : <div className="bg-red-500 rounded-full p-1">Opened</div>}</div>
                     </div>
