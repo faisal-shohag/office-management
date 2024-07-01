@@ -371,6 +371,7 @@ const AddStudents = () => {
           setImageData(d.image)
           setValue("name", d.name);
           setValue("phone", d.phone);
+          setValue("alt_phone", d.alt_phone)
           setValue("present_address", d.present_address);
           setValue("permanent_address", d.permanent_address);
           d.email && setValue("email", d.email);
@@ -485,7 +486,7 @@ const AddStudents = () => {
                                 className="grid grid-cols-2 gap-3"
                               >
                                 <label htmlFor="Name" className="md:col-span-1">
-                                  Name
+                                  Name<span className="text-red-500">*</span>
                                   <Input
                                     {...register("name", { required: true })}
                                     type="text"
@@ -498,7 +499,7 @@ const AddStudents = () => {
                                   htmlFor="Mobile Number"
                                   className="md:col-span-1"
                                 >
-                                  Mobile Number
+                                  Mobile Number<span className="text-red-500">*</span>
                                   <Input
                                     {...register("phone", { required: true })}
                                     type="number"
@@ -507,11 +508,25 @@ const AddStudents = () => {
                                     placeholder="Mobile Number"
                                   />
                                 </label>
+
+                                <label
+                                  htmlFor="Alternative Number"
+                                  className="md:col-span-1"
+                                >
+                                  Alternative Mobile Number<span className="text-red-500">*</span>
+                                  <Input
+                                    {...register("alt_phone", { required: true })}
+                                    type="number"
+                                    name="alt_phone"
+                                    required
+                                    placeholder="Alternative Mobile Number"
+                                  />
+                                </label>
                                 <label
                                   htmlFor="Present Address"
                                   className="md:col-span-1"
                                 >
-                                  Present Address
+                                  Present Address<span className="text-red-500">*</span>
                                   <Input
                                     {...register("present_address", {
                                       required: true,
@@ -553,7 +568,7 @@ const AddStudents = () => {
                                   htmlFor="Date of Birth"
                                   className="md:col-span-1"
                                 >
-                                  Date of Birth
+                                  Date of Birth<span className="text-red-500">*</span>
                                   <Input
                                     {...register("date_of_birth", {
                                       required: true,
@@ -567,7 +582,7 @@ const AddStudents = () => {
                                   htmlFor="Class"
                                   className="md:col-span-1"
                                 >
-                                  Course & Batch
+                                  Course & Batch<span className="text-red-500">*</span>
                                   <Select
                                     onValueChange={(value) => {
                                       getClass(value);
@@ -837,7 +852,7 @@ const AddStudents = () => {
                                 className="grid grid-cols-2 gap-3"
                               >
                                 <label htmlFor="Name" className="md:col-span-1">
-                                  Name
+                                  Name<span className="text-red-500">*</span>
                                   <Input
                                     {...register("name", { required: true })}
                                     type="text"
@@ -850,7 +865,7 @@ const AddStudents = () => {
                                   htmlFor="Mobile Number"
                                   className="md:col-span-1"
                                 >
-                                  Mobile Number
+                                  Mobile Number<span className="text-red-500">*</span>
                                   <Input
                                     {...register("phone", { required: true })}
                                     type="number"
@@ -859,11 +874,26 @@ const AddStudents = () => {
                                     placeholder="Mobile Number"
                                   />
                                 </label>
+
+                                <label
+                                  htmlFor="Alternative Number"
+                                  className="md:col-span-1"
+                                >
+                                  Alternative Mobile Number<span className="text-red-500">*</span>
+                                  <Input
+                                    {...register("alt_phone", { required: true })}
+                                    type="number"
+                                    name="alt_phone"
+                                    required
+                                    placeholder="Alternative Mobile Number"
+                                  />
+                                </label>
+
                                 <label
                                   htmlFor="Present Address"
                                   className="md:col-span-1"
                                 >
-                                  Present Address
+                                  Present Address<span className="text-red-500">*</span>
                                   <Input
                                     {...register("present_address", {
                                       required: true,
@@ -881,10 +911,9 @@ const AddStudents = () => {
                                   Permanent Address
                                   <Input
                                     {...register("permanent_address", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
                                     name="permanent_address"
                                     placeholder="Permanent Address"
                                   />
@@ -905,7 +934,7 @@ const AddStudents = () => {
                                   htmlFor="Date of Birth"
                                   className="md:col-span-1"
                                 >
-                                  Date of Birth
+                                  Date of Birth<span className="text-red-500">*</span>
                                   <Input
                                     {...register("date_of_birth", {
                                       required: true,
@@ -919,7 +948,7 @@ const AddStudents = () => {
                                   htmlFor="Class"
                                   className="md:col-span-1"
                                 >
-                                  Course & Batch
+                                  Course & Batch<span className="text-red-500">*</span>
                                   <Select
                                     onValueChange={(value) => {
                                       getClass(value);
@@ -1034,10 +1063,10 @@ const AddStudents = () => {
                                   B/C Number
                                   <Input
                                     {...register("birth_certificate_no", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="number"
-                                    required
+                                  
                                     name="birth_certificate_no"
                                     placeholder="Birth Certificate Number"
                                   />
@@ -1049,10 +1078,10 @@ const AddStudents = () => {
                                   Parents Name
                                   <Input
                                     {...register("parent_name", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="parent_name"
                                     placeholder="Parents Name"
                                   />
@@ -1064,10 +1093,10 @@ const AddStudents = () => {
                                   Parents Phone
                                   <Input
                                     {...register("parent_phone", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                  
                                     name="parent_phone"
                                     placeholder="Parents Phone"
                                   />
@@ -1079,10 +1108,10 @@ const AddStudents = () => {
                                   L-Guardian Name
                                   <Input
                                     {...register("local_guardian", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                  
                                     name="local_guardian"
                                     placeholder="Local Guardians"
                                   />
@@ -1094,10 +1123,10 @@ const AddStudents = () => {
                                   L Guardian&apos;s Phone
                                   <Input
                                     {...register("local_guardian_phone", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="text"
-                                    required
+                                    
                                     name="local_guardian_phone"
                                     placeholder="Local Guardians Phone Number"
                                   />

@@ -126,7 +126,7 @@ const EditStudents = () => {
         return res.json();
       })
       .then((d) => {
-        //console.log(d);
+        // console.log(d);
         setStudent(d);
         setTableId(d.id);
         if (!d) throw new Error("Student not found!");
@@ -134,13 +134,14 @@ const EditStudents = () => {
         setStdID(d.id);
         setValue("name", d.name);
         setValue("phone", d.phone);
+        setValue("alt_phone", d.alt_phone)
         setValue("present_address", d.present_address);
         setValue("permanent_address", d.permanent_address);
         setValue("email", d.email);
         setValue("date_of_birth", formDate(d.date_of_birth));
         setValue("id_no", id.id);
         setValue("gender", d.gender);
-        setValue("blood_group", d.blood_group.toUpperCase());
+        setValue("blood_group", d.blood_group?.toUpperCase());
         setValue("birth_certificate_no", d.birth_certificate_no);
         setValue("parent_name", d.parent_name);
         setValue("parent_phone", d.parent_phone);
@@ -195,6 +196,18 @@ const EditStudents = () => {
                           placeholder="Mobile Number"
                         />
                       </label>
+
+                      <label htmlFor="Alternative Mobile Number" className="md:col-span-1">
+                        Alternative Mobile Number
+                        <Input
+                          {...register("alt_phone", { required: true })}
+                          type="number"
+                          name="alt_phone"
+                          required
+                          placeholder="Alternative Mobile Number"
+                        />
+                      </label>
+
                       <label
                         htmlFor="Present Address"
                         className="md:col-span-1"

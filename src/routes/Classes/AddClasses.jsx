@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { classAdd } from "@/lib/api";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -15,7 +16,7 @@ import toast from "react-hot-toast";
 
 const AddClasses = () => {
   // const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
 
   // const [isClick, setIsClick] = useState(false)
 
@@ -52,15 +53,32 @@ const AddClasses = () => {
       <h1 className="text-2xl font-bold mb-3">Add Course</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="border p-5 rounded">
         <div className="grid grid-cols-1 md:grid-cols-2 mt-3 gap-4">
-          <label htmlFor="Tuition/Course Fee" className="md:col-span-1">
-            Course Name
-            <Input
-              {...register("name", { required: true })}
-              type="text"
-              name="name"
-              placeholder="Course Name "
-            />
-          </label>
+        <label htmlFor="Class">
+                Course Name
+                <Select
+                  onValueChange={(value) =>{ 
+                    setValue("name", value)
+                  }}
+                  id="Class"
+                  required
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Course Name" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Select Course</SelectLabel>
+                      
+                        <SelectItem value="Basic Computer">Basic Computer</SelectItem>
+                        <SelectItem value="Web Development">Web Development</SelectItem>
+                        <SelectItem value="Graphics Design">Graphics Design</SelectItem>
+                        <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
+                        <SelectItem value="SEO">SEO</SelectItem>
+                      
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </label>
           <label htmlFor="Tuition/Course Fee" className="md:col-span-1">
             Tuition/Course Fee
             <Input

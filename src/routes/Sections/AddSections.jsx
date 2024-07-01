@@ -58,13 +58,13 @@ const AddSections = () => {
 
 
   const getClass = (id) => {
-    setValue("name", "Loading...")
+    // setValue("name", "Loading...")
     setIsLoading(true)
     getClassById(id)
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         // console.log(data.sections);
-        setValue('name', data.sections.length + 1)
+        // setValue('name', data.sections.length + 1)
         setIsLoading(false)
       })
       .catch((err) => {
@@ -127,7 +127,7 @@ const AddSections = () => {
                   type="text"
                   id="name"
                   placeholder="Batch No"
-                  disabled={true}
+                  // disabled={true}
                   required
                 />
               </label>
