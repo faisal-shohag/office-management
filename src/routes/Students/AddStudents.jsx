@@ -164,11 +164,11 @@ const AddStudents = () => {
   };
 
   const idGenerate = (course_batch) => {
-    console.log(course_batch);
+    // console.log(course_batch);
     const { name } = cands.filter((item) => item.value == course_batch)[0];
     let cb = generateLetter(name);
     const batch = name.split("-")[1];
-    console.log(cb);
+    // console.log(cb);
     getLastStudent()
       .then((res) => res.json())
       .then((data) => {
@@ -182,7 +182,7 @@ const AddStudents = () => {
           id = parseInt(sid.match(/\d{4}$/));
           id += 1;
           sid = sid.slice(0, -7);
-          console.log(sid);
+          // console.log(sid);
           id = id.toString().padStart(4, "0");
           id = sid + cb + batch + id;
         } else {
@@ -299,10 +299,13 @@ const AddStudents = () => {
     );
   };
 
+  // const [fixedFee, setFixedFee] = useState(0)
+
   useEffect(() => {
     getClasses()
       .then((res) => res.json())
       .then((data) => {
+        
         setClasses(data);
         let d = [];
         for (let i = 0; i < data.length; i++) {
@@ -342,7 +345,11 @@ const AddStudents = () => {
     if (id.includes("|")) {
       id = id.split("|");
       let cls = classes.filter((c) => c.id == parseInt(id[0]));
-      //  console.log(cls)
+      setFee(cls[0].fee)
+
+       
+      //  setFixedFee(cls[0].fee)
+       document.getElementById('fixed_fee').value = cls[0].fee
       setCls(cls[0].name);
       let sec = cls[0].sections.filter((s) => s.id == parseInt(id[1]));
       //  console.log("sec", sec)
@@ -392,6 +399,15 @@ const AddStudents = () => {
       }
     );
   };
+
+  // const [femaleDiscount, setFemaleDiscount] = useState(false)
+
+  const handleGenderDiscount = (gender) => {
+     console.log(gender)
+    //  if(gender === "female") {
+    //   setFemaleDiscount(true)
+    //  }
+  }
 
 
   return (
@@ -457,8 +473,8 @@ const AddStudents = () => {
                                   onClick={findStudent}
                                   className="flex gap-2"
                                 >
-                                  {" "}
                                   <Search size={16} /> Search
+
                                 </Button>
                               </div>
                             </div>
@@ -508,7 +524,6 @@ const AddStudents = () => {
                                     placeholder="Mobile Number"
                                   />
                                 </label>
-
                                 <label
                                   htmlFor="Alternative Number"
                                   className="md:col-span-1"
@@ -657,10 +672,12 @@ const AddStudents = () => {
                                   htmlFor="Gender"
                                   className="md:col-span-1"
                                 >
-                                  Gender
+                                  Gender<span className="text-red-500">*</span>
                                   <Select
-                                    onValueChange={(value) =>
-                                      setValue("gender", value)
+                                    onValueChange={(value) =>{
+                                      setValue("gender", value);
+                                      handleGenderDiscount(value)
+                                    }
                                     }
                                     required
                                   >
@@ -681,7 +698,7 @@ const AddStudents = () => {
                                   </Select>
                                 </label>
                                 <label htmlFor="ID" className="md:col-span-1">
-                                  Student ID
+                                  Student ID<span className="text-red-500">*</span>
                                   <Input
                                     disabled
                                     {...register("id_no", { required: true })}
@@ -726,7 +743,7 @@ const AddStudents = () => {
                                   htmlFor="B/C Number"
                                   className="md:col-span-1"
                                 >
-                                  B/C No. or NID No.
+                                  B/C or NID No.
                                   <Input
                                     {...register("birth_certificate_no", {
                                       required: false,
@@ -741,13 +758,13 @@ const AddStudents = () => {
                                   htmlFor="Parents Name"
                                   className="md:col-span-1"
                                 >
-                                  Parents Name
+                                  Parents Name<span className="text-red-500">*</span>
                                   <Input
                                     {...register("parent_name", {
-                                      required: false,
+                                      required: true,
                                     })}
                                     type="text"
-                                    
+                                    required
                                     name="parent_name"
                                     placeholder="Parents Name"
                                   />
@@ -756,13 +773,13 @@ const AddStudents = () => {
                                   htmlFor="Parents Phone"
                                   className="md:col-span-1"
                                 >
-                                  Parents Phone
+                                  Parents Phone<span className="text-red-500">*</span>
                                   <Input
                                     {...register("parent_phone", {
-                                      required: false,
+                                      required: true,
                                     })}
                                     type="text"
-                                    
+                                    required
                                     name="parent_phone"
                                     placeholder="Parents Phone"
                                   />
@@ -874,7 +891,6 @@ const AddStudents = () => {
                                     placeholder="Mobile Number"
                                   />
                                 </label>
-
                                 <label
                                   htmlFor="Alternative Number"
                                   className="md:col-span-1"
@@ -888,7 +904,6 @@ const AddStudents = () => {
                                     placeholder="Alternative Mobile Number"
                                   />
                                 </label>
-
                                 <label
                                   htmlFor="Present Address"
                                   className="md:col-span-1"
@@ -1022,8 +1037,9 @@ const AddStudents = () => {
                                   htmlFor="Gender"
                                   className="md:col-span-1"
                                 >
-                                  Gender
+                                  Gender<span className="text-red-500">*</span>
                                   <Input
+                                    
                                     disabled
                                     {...register("gender", { required: true })}
                                     type="text"
@@ -1075,13 +1091,13 @@ const AddStudents = () => {
                                   htmlFor="Parents Name"
                                   className="md:col-span-1"
                                 >
-                                  Parents Name
+                                  Parents Name<span className="text-red-500">*</span>
                                   <Input
                                     {...register("parent_name", {
-                                      required: false,
+                                      required: true,
                                     })}
                                     type="text"
-                                    
+                                    required
                                     name="parent_name"
                                     placeholder="Parents Name"
                                   />
@@ -1090,13 +1106,13 @@ const AddStudents = () => {
                                   htmlFor="Parents Phone"
                                   className="md:col-span-1"
                                 >
-                                  Parents Phone
+                                  Parents Phone<span className="text-red-500">*</span>
                                   <Input
                                     {...register("parent_phone", {
-                                      required: false,
+                                      required: true,
                                     })}
                                     type="text"
-                                  
+                                    required
                                     name="parent_phone"
                                     placeholder="Parents Phone"
                                   />
@@ -1275,16 +1291,16 @@ const AddStudents = () => {
                                               : 0
                                           )
                                         }
-                                        defaultValue={0}
+                                        id="fixed_fee"
                                         className="border dark:bg-black rounded-xl w-[100px] text-right"
                                         type="number"
                                         placeholder="00"
                                       />
                                     </span>
                                   </li>
-                                  {/* <li className="flex items-center justify-between">
+                                  <li className="flex items-center justify-between">
                                   <span className="text-muted-foreground">
-                                    Discount
+                                    Discount(%)
                                   </span>
                                   <span>
                                     <input
@@ -1296,12 +1312,12 @@ const AddStudents = () => {
                                         )
                                       }
                                       defaultValue={0}
-                                      className="border dark:bg-black  rounded-xl w-[100px] text-center"
+                                      className="border dark:bg-black text-right  rounded-xl w-[100px]"
                                       type="number"
                                       placeholder="00"
                                     />
                                   </span>
-                                </li> */}
+                                </li>
                                   <li className="flex items-center justify-between">
                                     <span className="text-muted-foreground">
                                       Other
