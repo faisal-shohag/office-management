@@ -178,16 +178,17 @@ const AddStudents = () => {
         // console.log(data)
         if (data.length > 0) {
           let sid = data[0].id_no;
-          // console.log(sid)
+          // console.log("sid_b", sid)
           id = parseInt(sid.match(/\d{4}$/));
           id += 1;
-          sid = sid.slice(0, -7);
-          // console.log(sid);
+          sid = sid.slice(0, 2);
+          // console.log("sid_a", sid);
           id = id.toString().padStart(4, "0");
           id = sid + cb + batch + id;
         } else {
           id = year[2] + year[3] + cb + batch + "0001";
         }
+        // console.log("id: ", id)
         isReAdmission
           ? setValue("id_no", document.getElementById("student_id").value)
           : setValue("id_no", id);
@@ -238,7 +239,7 @@ const AddStudents = () => {
           .then((d) => {
             if (d.err) throw new Error(d.err);
             AdmissionDataSend({
-              fee: parseFloat(fee),
+              fee: parseFloat(fee+other),
               discount: parseFloat(discount),
               other: parseFloat(other),
               studentId: d.created.id,
@@ -274,7 +275,7 @@ const AddStudents = () => {
         .then((d) => {
           if (d.err) throw new Error(d.err);
           AdmissionDataSend({
-            fee: parseFloat(fee),
+            fee: parseFloat(fee+other),
             discount: parseFloat(discount),
             other: parseFloat(other),
             studentId: d.created.id,
@@ -340,16 +341,17 @@ const AddStudents = () => {
 
   const [class_, setCls] = useState("");
   const [sec, setSec] = useState("");
+  const [courseFee, setCourseFee] = useState(0)
 
   const getClass = (id) => {
     if (id.includes("|")) {
       id = id.split("|");
       let cls = classes.filter((c) => c.id == parseInt(id[0]));
-      setFee(cls[0].fee)
+      setCourseFee(cls[0].fee)
 
        
       //  setFixedFee(cls[0].fee)
-       document.getElementById('fixed_fee').value = cls[0].fee
+      //  document.getElementById('fixed_fee').value = cls[0].fee
       setCls(cls[0].name);
       let sec = cls[0].sections.filter((s) => s.id == parseInt(id[1]));
       //  console.log("sec", sec)
@@ -1276,31 +1278,21 @@ const AddStudents = () => {
                                     <span> {watch("phone")} </span>
                                   </li>
                                 </ul>
+                               
                                 <Separator className="my-2" />
                                 <ul className="grid gap-3">
-                                  <li className="flex items-center justify-between">
+                                <li className="flex items-center justify-between">
                                     <span className="text-muted-foreground">
-                                      Admission Fee
+                                      Course Fee
                                     </span>
                                     <span>
-                                      <input
-                                        onChange={(e) =>
-                                          setFee(
-                                            !e.target.value == ""
-                                              ? parseFloat(e.target.value)
-                                              : 0
-                                          )
-                                        }
-                                        id="fixed_fee"
-                                        className="border dark:bg-black rounded-xl w-[100px] text-right"
-                                        type="number"
-                                        placeholder="00"
-                                      />
+                                      {courseFee}
                                     </span>
                                   </li>
+                                  
                                   <li className="flex items-center justify-between">
                                   <span className="text-muted-foreground">
-                                    Discount(%)
+                                    Discount(Flat)
                                   </span>
                                   <span>
                                     <input
@@ -1318,6 +1310,17 @@ const AddStudents = () => {
                                     />
                                   </span>
                                 </li>
+                                <Separator className="mt-2" />
+                                <li className="flex items-center justify-between font-semibold">
+                                    <span className="text-muted-foreground">
+                                      Sub Total
+                                    </span>
+                                    <span>
+                                      {(courseFee) - discount}
+                                      ৳
+                                    </span>
+                                  </li>
+                                  <Separator className="" />
                                   <li className="flex items-center justify-between">
                                     <span className="text-muted-foreground">
                                       Other
@@ -1338,35 +1341,53 @@ const AddStudents = () => {
                                       />
                                     </span>
                                   </li>
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Admission Fee
+                                    </span>
+                                    <span>
+                                      <input
+                                        onChange={(e) =>
+                                          setFee(
+                                            !e.target.value == ""
+                                              ? parseFloat(e.target.value)
+                                              : 0
+                                          )
+                                        }
+                                        className="border dark:bg-black rounded-xl w-[100px] text-right"
+                                        type="number"
+                                        placeholder="00"
+                                      />
+                                    </span>
+                                  </li>
+                                  <Separator className="" />
                                   <li className="flex items-center justify-between font-semibold">
                                     <span className="text-muted-foreground">
                                       Total
                                     </span>
                                     <span>
                                       {fee +
-                                        other -
-                                        (fee + other) * (discount / 100)}{" "}
+                                        other}
                                       ৳
                                     </span>
                                   </li>
+                                  <Separator className="" />
+                                  <li className="flex items-center justify-between font-semibold">
+                                    <span className="text-red-500">
+                                      Due
+                                    </span>
+                                    <span className="text-red-500">
+                                      {(courseFee-fee) +
+                                        other - discount}
+                                      ৳
+                                    </span>
+                                  </li>
+                                  
                                 </ul>
                               </div>
 
                               <Separator className="my-4" />
-                              <div className="grid gap-3">
-                                <div className="font-semibold">
-                                  Payment Information
-                                </div>
-                                <dl className="grid gap-3">
-                                  <div className="flex items-center justify-between">
-                                    <dt className="flex items-center gap-1 text-muted-foreground">
-                                      <CreditCard className="h-4 w-4" />
-                                      Type
-                                    </dt>
-                                    <dd>Cash</dd>
-                                  </div>
-                                </dl>
-                              </div>
+                           
                             </CardContent>
                             <hr></hr>
                             {/* Admission Condition */}
@@ -1432,169 +1453,210 @@ const AddStudents = () => {
                   <div className={isGenerate ? "block mt-60" : "hidden"}>
                     <div className="lg:grid grid-cols-2  gap-5">
                       <div style={{ transform: "scale(2)" }} ref={targetRef}>
-                        <Card
-                          className="overflow-hidden"
-                          x-chunk="dashboard-05-chunk-4"
-                        >
-                          <CardHeader className="text-center bg-muted/50">
-                            <div className="grid gap-0.5">
-                              <CardTitle className="flex flex-col items-center justify-center gap-2 text-lg">
-                                <div className="">
-                                  <img
-                                    alt="logo"
-                                    className="h-[70px]"
-                                    src='./inst_logo.webp'
-                                  />
-                                </div>
-
-                                <div className="">
-                                  {/* <div>{admin?.inst_name}</div> */}
-                                  <div className="text-sm">
-                                    EIIN: {admin?.inst_eiin}
-                                  </div>
-                                  <CardDescription>
-                                    Date: {dateTime(new Date())}
-                                  </CardDescription>
-                                </div>
-                              </CardTitle>
-
-                              <div className="text-xl mt-1 font-bold">
-                                Admission Payment Receipt
-                              </div>
-                            </div>
-                          </CardHeader>
-                          <CardContent className=" text-sm">
-                            <div className="grid gap-3">
-                              <div className="font-semibold text-md">
-                                Student Information
-                              </div>
-                              <ul className="grid gap-3">
-                                <li className="flex items-center justify-between font-semibold">
-                                  <span className="">
-                                    Student Name
-                                  </span>
-                                  <span>{watch("name")}</span>
-                                </li> <hr></hr>
-                                <li className="flex items-center justify-between font-semibold">
-                                  <span className="">
-                                    Course Name
-                                  </span>
-                                  <span> {class_} </span>
-                                </li><hr></hr>
-                                {sec && (
-                                  <li className="flex items-center justify-between font-semibold">
-                                    <span className="">
-                                      Course Batch
-                                    </span>
-                                    <span> {sec} </span>
-                                  </li>
-                                )}<hr></hr>
-                                <li className="flex items-center justify-between font-semibold">
-                                  <span className="">
-                                    Student Id No
-                                  </span>
-                                  <span> {watch("id_no")} </span>
-                                </li>
-                              </ul>
-                              <Separator className="my-2" />
-
-                              <ul className="grid gap-3">
-                                <li className="flex items-center justify-between font-semibold">
-                                  <span>Admission Fee</span>
-                                  <span>{fee} tk</span>
-                                </li>
-                                {/*  <li className="flex items-center justify-between font-semibold">
-                                  <span>Discount(Flat)</span>
-                                  <span>{discount}%</span>
-                                </li> */}
-
-                                <li className="flex items-center justify-between font-semibold">
-                                  <span>Other</span>
-                                  <span>{other} tk</span>
-                                </li>
-                                <Separator />
-                                <li className="flex items-center justify-between font-semibold">
-                                  <span>Total</span>
-                                  <span>
-                                    {fee + other - discount}
-                                    tk
-                                  </span>
-                                </li>
-                              </ul>
-                            </div>
-
-                            <Separator className="my-4" />
-                            <div className="grid gap-3">
-                              <div className="font-semibold">
-                                Payment Information
-                              </div>
-                              <dl className="grid gap-3">
-                                <div className="flex items-center justify-between">
-                                  <dt className="flex items-center gap-1 text-muted-foreground">
-                                    {/* <CreditCard className="h-4 w-4" /> */}
-                                    Type
-                                  </dt>
-                                  <dd>Cash</dd>
-                                </div>
-                              </dl>
-                            </div>
-                          </CardContent>
-
-                          <hr></hr>
-                          {/* Admission Condition */}
-                          <div
-                            className="p-3"
-                            style={{ fontFamily: "Hind Siliguri" }}
+                      <Card
+                            className="overflow-hidden"
+                            x-chunk="dashboard-05-chunk-4"
                           >
-                            <h1 className="text-center text-2xl mb-3">
-                              ভর্তির শর্তাবলী{" "}
-                            </h1>
-                            <ul>
-                              <li className="mb-3">
-                                ১। কোর্স ফি দুই বা তিন কিস্তিতে পরিশোধ করা
-                                যাবে ।
-                              </li>
-                              <li className="mb-3">
-                                ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয় ।{" "}
-                              </li>
-                              <li className="mb-3">
-                                ৩। অনিয়মিত প্রশিক্ষণার্থীদের সার্টিফিকেট
-                                প্রদান করা হবে নাহ ।{" "}
-                              </li>
-                              <li>
-                                ৪। আপনার যে কোন অসংগতি ব্যবহারের জন্য
-                                কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে ।{" "}
-                              </li>
-                            </ul>
-                          </div>
-                          <hr></hr>
-                          {/* Signature */}
-              
+                            <CardHeader className="text-center bg-muted/50">
+                              <div className="grid gap-0.5">
+                                <CardTitle className="flex flex-col items-center justify-center gap-2 text-lg">
+                                  <div className="">
+                                    <img
+                                      alt="logo"
+                                      className="h-[80px]"
+                                      src='./inst_logo.webp'
+                                    />
+                                  </div>
+
+                                  <div className="lg:w-[77%]">
+                                    {/*  <div>{admin?.inst_name}</div> */}
+                                    <div className="text-sm">
+                                      EIIN: {admin?.inst_eiin}
+                                    </div>
+                                    <CardDescription>
+                                      Date: {dateTime(new Date())}
+                                    </CardDescription>
+                                  </div>
+                                </CardTitle>
+
+                                <div className="text-xl mt-2 font-bold">
+                                  Admission Payment Receipt
+                                </div>
+                              </div>
+                            </CardHeader>
+                            <CardContent className="p-6 text-sm">
+                              <div className="grid gap-3">
+                                <div className="font-semibold">
+                                  Student Information's
+                                </div>
+                                <ul className="grid gap-3">
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Student Name
+                                    </span>
+                                    <span>{watch("name")}</span>
+                                  </li>
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Course Name
+                                    </span>
+                                    <span> {class_} </span>
+                                  </li>
+                                  {sec && (
+                                    <li className="flex items-center justify-between">
+                                      <span className="text-muted-foreground">
+                                        Course Batch
+                                      </span>
+                                      <span> {sec} </span>
+                                    </li>
+                                  )}
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Student Id No
+                                    </span>
+                                    <span> {watch("id_no")} </span>
+                                  </li>
+
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Student Phone
+                                    </span>
+                                    <span> {watch("phone")} </span>
+                                  </li>
+                                </ul>
+                               
+                                <Separator className="my-2" />
+                                <ul className="grid gap-3">
+                                <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Course Fee
+                                    </span>
+                                    <span>
+                                     {courseFee}
+                                    </span>
+                                  </li>
+                                  
+                                  <li className="flex items-center justify-between">
+                                  <span className="text-muted-foreground">
+                                    Discount(Flat)
+                                  </span>
+                                  <span>
+                                   {discount}
+                                  </span>
+                                </li>
+                                <Separator className="mt-2" />
+                                <li className="flex items-center justify-between font-semibold">
+                                    <span className="text-muted-foreground">
+                                      Sub Total
+                                    </span>
+                                    <span>
+                                      {(courseFee) +
+                                        other - discount}
+                                      ৳
+                                    </span>
+                                  </li>
+                                  <Separator className="" />
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Other
+                                    </span>
+                                    <span>
+                                     {other}
+                                    </span>
+                                  </li>
+                                  <li className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">
+                                      Admission Fee
+                                    </span>
+                                    <span>
+                                      {fee}
+                                    </span>
+                                  </li>
+                                  <Separator className="" />
+                                  <li className="flex items-center justify-between font-semibold">
+                                    <span className="text-muted-foreground">
+                                      Total
+                                    </span>
+                                    <span>
+                                      {fee +
+                                        other}
+                                      ৳
+                                    </span>
+                                  </li>
+                                  <Separator className="" />
+                                  <li className="flex items-center justify-between font-semibold">
+                                    <span className="text-red-500">
+                                      Due
+                                    </span>
+                                    <span className="text-red-500">
+                                      {(courseFee-fee) +
+                                        other - discount}
+                                      ৳
+                                    </span>
+                                  </li>
+                                  
+                                </ul>
+                              </div>
+
+                              <Separator className="my-4" />
+                           
+                            </CardContent>
+                            <hr></hr>
+                            {/* Admission Condition */}
+                            <div
+                              className="p-5"
+                              style={{ fontFamily: "Hind Siliguri" }}
+                            >
+                              <h1 className="text-center text-2xl mb-3">
+                                ভর্তির শর্তাবলী{" "}
+                              </h1>
+                              <ul>
+                                <li className="mb-3">
+                                  ১। কোর্স ফি দুই বা তিন কিস্তিতে পরিশোধ করা
+                                  যাবে ।
+                                </li>
+                                <li className="mb-3">
+                                  ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয় ।{" "}
+                                </li>
+                                <li className="mb-3">
+                                  ৩। অনিয়মিত প্রশিক্ষণার্থীদের সার্টিফিকেট
+                                  প্রদান করা হবে নাহ ।{" "}
+                                </li>
+                                <li>
+                                  ৪। আপনার যে কোন অসংগতি ব্যবহারের জন্য
+                                  কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে ।{" "}
+                                </li>
+                              </ul>
+                            </div>
+                            <hr></hr>
+                            {/* Signature */}
                             <div className="flex flex-row justify-between p-5 text-center">
                               <div>
-                                <p>{incharge}</p>
-                                <Separator className="my-2" />
+                                <Input type="text" onChange={(e)=> {
+                                  // console.log(e.target.value)
+                                  setIncharge(e.target.value)
+                                }}  placeholder="Name"/>
+                                <hr></hr>
                                 <b>Received By</b>
                               </div>
                               <div>
                                 <p className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</p>
-                                <Separator className="my-2" />
+                                <hr></hr>
                                 <b>Founder</b>
                               </div>
                             </div>
-                          <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 pt-2 justify-between bg-[#2b74ba] text-white">
-                            <div className="text-xs">
-                              <h1>|| {admin.inst_address} || </h1>
-                            </div>
-                            <div className="text-xs">
-                              <h1>|| {admin.inst_email} || </h1>
-                            </div>
-                            <div className="text-xs ">
-                              <h1>|| {admin.inst_phone} ||</h1>
-                            </div>
-                          </CardFooter>
-                          {/* End Footer */}
-                        </Card>
+                            <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3 justify-between bg-[#2b74ba] text-white">
+                              <div className="text-xs">
+                                <h1>{admin.inst_address} || </h1>
+                              </div>
+                              <div className="text-xs">
+                                <h1>|| {admin.inst_email} || </h1>
+                              </div>
+                              <div className="text-xs ">
+                                <h1>|| {admin.inst_phone}</h1>
+                              </div>
+                            </CardFooter>
+                          </Card>
                       </div>
                     </div>
                   </div>

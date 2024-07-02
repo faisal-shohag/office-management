@@ -42,6 +42,7 @@ const StudentProfile = () => {
       .then((res) => res.json())
       .then((data) => {
         setStudent(data);
+        console.log(data)
         setIsData(true);
         setAdmissionFee(data.admissionFee);
         setRegularFee(data.regularFee);
@@ -49,7 +50,7 @@ const StudentProfile = () => {
         let total = 0;
         for (let i = 0; i < data.admissionFee.length; i++) {
           let fee = data.admissionFee[i];
-          total += fee.fee + fee.other - fee.discount;
+          total += fee.fee + fee.other;
         }
 
         for (let i = 0; i < data.regularFee.length; i++) {
@@ -69,6 +70,8 @@ const StudentProfile = () => {
         console.log(err);
       });
   }, [id]);
+
+  console.log(student);
 
   return (
     <>
@@ -100,12 +103,12 @@ const StudentProfile = () => {
                         <Users className="h-4 w-4 text-muted-foreground" />
                       </CardHeader>
                       <CardContent>
-                        <div className="text-2xl font-bold">৳ {totalPaid}</div>
+                        <div className="text-2xl font-bold flex items-center flex-wrap gap-3">৳ {totalPaid} {student.discount > 0 && <Badge>Discounted ৳{student.discount}</Badge>}</div>
                         <div className="text-xs text-red-500 text-muted-foreground">
-                          {student.due == 0 ? (
+                          {(student.class.fee)-(student.discount+totalPaid) == 0 ? (
                             <Badge className="bg-green-500">Paid</Badge>
                           ) : (
-                            `Due ৳ ${student.due}`
+                            <span>Due ৳ {(student.class.fee)-(student.discount+totalPaid)} </span>
                           )}
                         </div>
                       </CardContent>
@@ -142,7 +145,7 @@ const StudentProfile = () => {
                                 </div>
                               </TableCell>
                               <TableCell className="text-right">
-                                ৳{fee.fee + fee.other - fee.discount}
+                                ৳{fee.fee + fee.other}
                               </TableCell>
                             </TableRow>
                           ))}
