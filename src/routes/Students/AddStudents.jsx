@@ -1321,7 +1321,7 @@ const AddStudents = () => {
                                     </span>
                                   </li>
                                   <Separator className="" />
-                                  <li className="flex items-center justify-between">
+                                  <li className=" hidden items-center justify-between">
                                     <span className="text-muted-foreground">
                                       Other
                                     </span>
@@ -1556,7 +1556,7 @@ const AddStudents = () => {
                                     </span>
                                   </li>
                                   <Separator className="" />
-                                  <li className="flex items-center justify-between">
+                                  <li className="hidden items-center justify-between">
                                     <span className="text-muted-foreground">
                                       Other
                                     </span>
