@@ -138,7 +138,7 @@ const EditStudents = () => {
         setValue("present_address", d.present_address);
         setValue("permanent_address", d.permanent_address);
         setValue("email", d.email);
-        setValue("date_of_birth", formDate(d.date_of_birth));
+        // setValue("date_of_birth", formDate(d.date_of_birth));
         setValue("id_no", id.id);
         setValue("gender", d.gender);
         setValue("blood_group", d.blood_group?.toUpperCase());
@@ -230,10 +230,10 @@ const EditStudents = () => {
                         Permanent Address
                         <Input
                           {...register("permanent_address", {
-                            required: true,
+                            required: false,
                           })}
                           type="text"
-                          required
+                          
                           name="permanent_address"
                           placeholder="Permanent Address"
                         />
@@ -241,9 +241,8 @@ const EditStudents = () => {
                       <label htmlFor="Email" className="md:col-span-1">
                         Email
                         <Input
-                          {...register("email", { required: true })}
-                          type="email"
-                          required
+                          {...register("email", { required: false })}
+                          type="email"                          
                           name="email"
                           disabled
                           placeholder="Email"
@@ -253,10 +252,9 @@ const EditStudents = () => {
                         Date of Birth
                         <Input
                           {...register("date_of_birth", {
-                            required: true,
+                            required: false,
                           })}
-                          type="date"
-                          required
+                          type="date"                       
                           name="date_of_birth"
                         />
                       </label>
@@ -324,7 +322,7 @@ const EditStudents = () => {
                         Gender
                         <Input
                           disabled
-                          {...register("gender", { required: true })}
+                          {...register("gender", { required: false })}
                           type="text"
                           name="gender"
                           placeholder="Gender"
@@ -345,7 +343,7 @@ const EditStudents = () => {
                         <Input
                           disabled
                           {...register("blood_group", {
-                            required: true,
+                            required: false,
                           })}
                           type="text"
                           name="blood_group"
@@ -356,10 +354,10 @@ const EditStudents = () => {
                         B/C Number
                         <Input
                           {...register("birth_certificate_no", {
-                            required: true,
+                            required: false,
                           })}
                           type="number"
-                          required
+                          
                           name="birth_certificate_no"
                           placeholder="Birth Certificate Number"
                         />
@@ -395,10 +393,10 @@ const EditStudents = () => {
                         L-Guardian Name
                         <Input
                           {...register("local_guardian", {
-                            required: true,
+                            required: false,
                           })}
                           type="text"
-                          required
+                          
                           name="local_guardian"
                           placeholder="Local Guardians"
                         />
@@ -410,10 +408,10 @@ const EditStudents = () => {
                         L Guardian&apos;s Phone
                         <Input
                           {...register("local_guardian_phone", {
-                            required: true,
+                            required: false,
                           })}
                           type="text"
-                          required
+                          
                           name="local_guardian_phone"
                           placeholder="Local Guardians Phone Number"
                         />

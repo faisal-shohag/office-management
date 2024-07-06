@@ -384,7 +384,7 @@ const AddStudents = () => {
           setValue("present_address", d.present_address);
           setValue("permanent_address", d.permanent_address);
           d.email && setValue("email", d.email);
-          setValue("date_of_birth", formDate(d.date_of_birth));
+          // setValue("date_of_birth", formDate(d.date_of_birth));
           setValue("id_no", id);
           setValue("gender", d.gender);
           // setValue("blood_group", d.blood_group.toUpperCase());
@@ -585,13 +585,13 @@ const AddStudents = () => {
                                   htmlFor="Date of Birth"
                                   className="md:col-span-1"
                                 >
-                                  Date of Birth<span className="text-red-500">*</span>
+                                  Date of Birth
                                   <Input
                                     {...register("date_of_birth", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="date"
-                                    required
+                                    
                                     name="date_of_birth"
                                   />
                                 </label>
@@ -951,13 +951,13 @@ const AddStudents = () => {
                                   htmlFor="Date of Birth"
                                   className="md:col-span-1"
                                 >
-                                  Date of Birth<span className="text-red-500">*</span>
+                                  Date of Birth
                                   <Input
                                     {...register("date_of_birth", {
-                                      required: true,
+                                      required: false,
                                     })}
                                     type="date"
-                                    required
+                                    
                                     name="date_of_birth"
                                   />
                                 </label>
@@ -1396,7 +1396,7 @@ const AddStudents = () => {
                               style={{ fontFamily: "Hind Siliguri" }}
                             >
                               <h1 className="text-center text-2xl mb-3">
-                                ভর্তির শর্তাবলী{" "}
+                                ভর্তির শর্তাবলী
                               </h1>
                               <ul>
                                 <li className="mb-3">
@@ -1404,15 +1404,18 @@ const AddStudents = () => {
                                   যাবে ।
                                 </li>
                                 <li className="mb-3">
-                                  ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয় ।{" "}
+                                  ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয়।
                                 </li>
                                 <li className="mb-3">
                                   ৩। অনিয়মিত প্রশিক্ষণার্থীদের সার্টিফিকেট
-                                  প্রদান করা হবে নাহ ।{" "}
+                                  প্রদান করা হবে না।
+                                </li>
+                                <li className="mb-3">
+                                  ৪। আপনার যে কোন অসঙ্গতিপূর্ণ ব্যবহারের জন্য
+                                  কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে।
                                 </li>
                                 <li>
-                                  ৪। আপনার যে কোন অসংগতি ব্যবহারের জন্য
-                                  কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে ।{" "}
+                                  ৫। ক্লাসের সময় ও দিন পরিবর্তন ও পরিবর্ধন বিষয়ক সকল ক্ষমতা কর্তৃপক্ষের হাতে নিহিত থাকবে।
                                 </li>
                               </ul>
                             </div>
@@ -1536,7 +1539,7 @@ const AddStudents = () => {
                                     </span>
                                   </li>
                                   
-                                  <li className="flex items-center justify-between">
+                                  <li className=" items-center justify-between hidden">
                                   <span className="text-muted-foreground">
                                     Discount(Flat)
                                   </span>
@@ -1598,7 +1601,7 @@ const AddStudents = () => {
                                 </ul>
                               </div>
 
-                              <Separator className="my-4" />
+                              <Separator className="my-3" />
                            
                             </CardContent>
                             <hr></hr>
@@ -1608,7 +1611,7 @@ const AddStudents = () => {
                               style={{ fontFamily: "Hind Siliguri" }}
                             >
                               <h1 className="text-center text-2xl mb-3">
-                                ভর্তির শর্তাবলী{" "}
+                                ভর্তির শর্তাবলী
                               </h1>
                               <ul>
                                 <li className="mb-3">
@@ -1616,15 +1619,18 @@ const AddStudents = () => {
                                   যাবে ।
                                 </li>
                                 <li className="mb-3">
-                                  ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয় ।{" "}
+                                  ২। কোর্স ফি কোন ভাবেই ফেরত যোগ্য নয়।
                                 </li>
                                 <li className="mb-3">
                                   ৩। অনিয়মিত প্রশিক্ষণার্থীদের সার্টিফিকেট
-                                  প্রদান করা হবে নাহ ।{" "}
+                                  প্রদান করা হবে না।
+                                </li>
+                                <li className="mb-3">
+                                  ৪। আপনার যে কোন অসঙ্গতিপূর্ণ ব্যবহারের জন্য
+                                  কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে।
                                 </li>
                                 <li>
-                                  ৪। আপনার যে কোন অসংগতি ব্যবহারের জন্য
-                                  কর্তৃপক্ষ আপনার ভর্তি বাতিল করতে পারে ।{" "}
+                                  ৫। ক্লাসের সময় ও দিন পরিবর্তন ও পরিবর্ধন বিষয়ক সকল ক্ষমতা কর্তৃপক্ষের হাতে নিহিত থাকবে।
                                 </li>
                               </ul>
                             </div>
@@ -1632,16 +1638,13 @@ const AddStudents = () => {
                             {/* Signature */}
                             <div className="flex flex-row justify-between p-5 text-center">
                               <div>
-                                <Input type="text" onChange={(e)=> {
-                                  // console.log(e.target.value)
-                                  setIncharge(e.target.value)
-                                }}  placeholder="Name"/>
-                                <hr></hr>
+                                <span className="font-hind">{incharge}</span>
+                                <br/>
                                 <b>Received By</b>
                               </div>
                               <div>
-                                <p className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</p>
-                                <hr></hr>
+                                <span className="font-hind">সৈয়দ মুহীউদ্দীন ফাহাদ</span>
+                                <br/>
                                 <b>Founder</b>
                               </div>
                             </div>
