@@ -28,14 +28,25 @@ import Loading from "@/components/app_components/Loading";
 //   const blob = await response.blob();
 //   return URL.createObjectURL(blob);
 // };
-
+const api_key = import.meta.env.VITE_serverKey;
 export default function IdCards() {
+  
   const { targetRef } = usePDF();
   const { register, setValue, watch } = useForm();
   const [student, setStudent] = useState([]);
   const [imageDataURI2, setImageDataURI2] = useState(null);
   const [studentURI, setStudentURI] = useState(null);
-  const { admin } = useContext(AuthContext);
+  const [admin, setAdmin] = useState(null)
+ useEffect(() => {
+  fetch(api_key + 'admin', {
+    method: "GET",
+    credentials: "include",
+  }).then((res) => {
+    return res.json();
+  }).then(r=> {
+    setAdmin(r)
+  })
+ }, [])
 
   /* Check Student */
   const [checkData, setCheckData] = useState([]);

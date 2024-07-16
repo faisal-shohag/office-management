@@ -1,4 +1,4 @@
-const api_key = import.meta.env.VITE_apiKey;
+const api_key = import.meta.env.VITE_serverKey;
 console.log(api_key)
 
 const adminLogin = (email, password) => {
@@ -532,6 +532,16 @@ const attendanceUpdate = (data, studentId, date, attendanceId) => {
   );
 };
 
+const accountUpdate = (data, id) => {
+  return fetch(api_key + "account/" + id, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+};
 //______________________________________________________________________________//////
 
 //DELETE
@@ -611,6 +621,7 @@ const deleteVisitor = (id) => {
 
 
 export {
+  accountUpdate,
   visitorReportByDate,
   deleteVisitor,
   deleteSalary,

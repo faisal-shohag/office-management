@@ -38,7 +38,7 @@ import { ModeToggle } from "@/components/theme/toggle-theme";
 import { MdReport, MdVisibility } from "react-icons/md";
 
 const Dashboard = () => {
-  const { changeUserState, admin, AdminLogout } = useContext(AuthContext);
+  const {user,  logOut } = useContext(AuthContext);
 
   // console.log(admin)
   const [selectedMenu, setSelectedMenu] = useState();
@@ -136,11 +136,8 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
-    AdminLogout()
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        changeUserState(null);
+    logOut()
+      .then(() =>{
         localStorage.removeItem("status");
         navigate("/login");
       })
@@ -186,7 +183,8 @@ const Dashboard = () => {
                   Dashboard
                 </Link>
                 {/* class start*/}
-                <button
+               
+                {user.email.includes('admin') && <button
                   id="classes"
                   className="text-black"
                   onClick={classNavHandler}
@@ -205,7 +203,8 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4" />
                     )}
                   </div>
-                </button>
+                </button>}
+
                 {classNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -236,10 +235,11 @@ const Dashboard = () => {
                 ) : (
                   ""
                 )}
+                
                 {/* class End*/}
 
                 {/* Student Start  */}
-                <button
+                {<button
                   id="std"
                   className="text-muted-foreground "
                   onClick={studentNavHandler}
@@ -258,7 +258,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4 text-black" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {studentNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -301,7 +301,7 @@ const Dashboard = () => {
                 {/* Student End */}
 
                 {/* Teachers Start  */}
-                <button
+                {user.email.includes('admin') && <button
                   id="teacher"
                   className="text-muted-foreground "
                   onClick={teachersNavHandler}
@@ -320,7 +320,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4 text-black" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {teachersNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -346,7 +346,7 @@ const Dashboard = () => {
                 {/* Teachers End */}
 
                 {/* Office Staffs Start */}
-                <button id="staff" className="" onClick={staffNavHandler}>
+                {user.email.includes('admin') &&<button id="staff" className="" onClick={staffNavHandler}>
                   <div className="flex items-center justify-between">
                     <a
                       href="#"
@@ -361,7 +361,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {staffNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -386,7 +386,7 @@ const Dashboard = () => {
                 )}
 
                 {/* Fee Start */}
-                <button id="acc" className="" onClick={feeHandler}>
+                {user.email.includes('admin') && <button id="acc" className="" onClick={feeHandler}>
                   <div className="flex items-center justify-between">
                     <a
                       href="#"
@@ -401,7 +401,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {feeNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -426,7 +426,7 @@ const Dashboard = () => {
                 )}
 
                 {/* Salary Start */}
-                <button id="acc" className="" onClick={salaryHandler}>
+                {user.email.includes('admin') && <button id="acc" className="" onClick={salaryHandler}>
                   <div className="flex items-center justify-between">
                     <a
                       href="#"
@@ -441,7 +441,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {salaryNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -466,7 +466,7 @@ const Dashboard = () => {
                 )}
 
                 {/* Accounts Start */}
-                <button id="acc" className="" onClick={accountNavHandler}>
+                {user.email.includes('admin') &&<button id="acc" className="" onClick={accountNavHandler}>
                   <div className="flex items-center justify-between">
                     <a
                       href="#"
@@ -481,7 +481,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {accountsNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -505,7 +505,7 @@ const Dashboard = () => {
                   ""
                 )}
                 {/* Visitor Start */}
-                <button id="acc" className="" onClick={visitorNavHandler}>
+                {<button id="acc" className="" onClick={visitorNavHandler}>
                   <div className="flex items-center justify-between">
                     <a
                       href="#"
@@ -520,7 +520,7 @@ const Dashboard = () => {
                       <Plus className="mt-2 h-4" />
                     )}
                   </div>
-                </button>
+                </button>}
                 {visitorNav ? (
                   <div className="fadeInDown">
                     <NavLink
@@ -610,14 +610,12 @@ const Dashboard = () => {
             </Sheet>
             <div className="w-full flex-1">
               <div className="relative">
-                {admin?.info ? (
-                  <h1 className="font-bold text-xl">{admin.inst_name}</h1>
-                ) : (
-                  ""
-                )}
+          
+                  <h1 className="font-bold text-xl">Inpired IT</h1>
+               
               </div>
             </div>
-            {admin ? admin.email : ""}
+           {user ? user.email : ""} 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

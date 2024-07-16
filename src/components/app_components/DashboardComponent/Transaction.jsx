@@ -27,7 +27,8 @@ import Spinner from '../Spinner';
 import Loading from "../Loading";
 import { dateTime } from "@/lib/api";
 import { MdAnalytics } from "react-icons/md";
-const api_key = import.meta.env.VITE_apiKey;
+import toast from "react-hot-toast";
+const api_key = import.meta.env.VITE_serverKey;
 
 
 
@@ -74,7 +75,8 @@ const Transaction = () => {
         setIsData(true)
         setIsData2(true)
       } catch (error) {
-        console.error('Error fetching students:', error);
+        toast.error('Error fetching transactions');
+        console.error('Error fetching transactions:', error);
       }
     };
 

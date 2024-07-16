@@ -1,54 +1,31 @@
-import { Navigate } from "react-router-dom";
-import PropTypes from 'prop-types';
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "@/Providers/AuthProvider";
-import Loading from "@/components/app_components/Loading";
+import { AuthContext } from "../Providers/AuthProvider";
+import { useContext } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+import ProgressWindow from "../components/app_components/ProgressWindow";
+
 const PrivateRoute = ({ children }) => {
- const [isAdmin, setIsAdmin] = useState(false);
- const [loading, setLoading] = useState(true);
- const { CheckAdminLogin } = useContext(AuthContext)
+  const { user, loading } = useContext(AuthContext);
+  console.log(user)
 
+  const location = useLocation();
+  if (loading) {
+    return (
+      <ProgressWindow
+        progressbar={<progress className="progress w-56"></progress>}
+      ></ProgressWindow>
+    );
+  }
 
-    useEffect(() => {
-    CheckAdminLogin()
-        .then(res=> res.json())
-        .then(user => {
-            if(user.loggedIn){
-                // changeUserState(user)
-                // console.log(user)
-                setIsAdmin(user);
-            } else {
-                setIsAdmin(false)
-            }
-            setLoading(false)
-            
-        })
-        .catch(err =>{
-            console.log(err)
-            setLoading(false)
-        })
+  if (user) {
+    return children;
+  }
 
-    }, [CheckAdminLogin])
-
-    if (loading) {
-        return <Loading/>
-    }
-    // console.log("admin", isAdmin)
-
-    console.log("Going through private route...")
-    if(isAdmin) return children
-
-    
-    
-
-    return  <Navigate to='/login'/> 
-
-    
+  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
 
 PrivateRoute.propTypes = {
-    children: PropTypes.node
-}
-
+  children: PropTypes.node.isRequired,
+};
 
 export default PrivateRoute;

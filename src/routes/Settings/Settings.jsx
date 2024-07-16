@@ -7,9 +7,10 @@ import Loading from "@/components/app_components/Loading";
 import toast from "react-hot-toast";
 
 import { AuthContext } from "@/Providers/AuthProvider";
-
+const api_key = import.meta.env.VITE_serverKey
 const Settings = () => {
-  const { admin, changeUserState } = useContext(AuthContext)
+  
+  // const { admin, changeUserState } = useContext(AuthContext)
   const [isData, setIsData] = useState(true);
 
   const {
@@ -19,22 +20,49 @@ const Settings = () => {
   } = useForm();
 
 
+  useEffect(()=> {
 
- 
+    fetch(api_key + 'admin', {
+      method: "GET",
+      credentials: "include",
+    }).then((res) => {
+      return res.json();
+    })
+    .then((d) => {
+      if (d.err) throw new Error(d.err);
+      // console.log(d);
+      const admin = d;
+      if(admin) {
+        setValue("inst_name",admin.inst_name);
+        setValue("inst_phone", admin.inst_phone);
+        setValue("inst_address", admin.inst_address);
+        setValue("inst_email", admin.inst_email);
+        setValue("inst_founding_date", formDate(admin.inst_founding_date));
+        setValue("inst_eiin", admin.inst_eiin);
+    } else {
+      setValue("inst_name", "");
+        setValue("inst_phone", "");
+        setValue("inst_address", "");
+        setValue("inst_email", "");
+        setValue("inst_founding_date", "");
+        setValue("inst_eiin", "");
+    }
+    setIsData(true)
+    })
+
+  }, [setValue])
 
 
 
   const onSubmit = (data) => {
- 
      data = {...data, inst_founding_date: new Date(data.inst_founding_date), info: true}
 
         toast.promise(
           adminUpdate(data, admin.id)
         .then((res) => res.json())
         .then((d) => {
-          
           if (d.err) throw new Error(d.err);
-          changeUserState({...d.updated})
+
 
         }),
             {
@@ -45,24 +73,7 @@ const Settings = () => {
           )
   };
 
-  useEffect(() => {
-      if(admin) {
-          setValue("inst_name",admin.inst_name);
-          setValue("inst_phone", admin.inst_phone);
-          setValue("inst_address", admin.inst_address);
-          setValue("inst_email", admin.inst_email);
-          setValue("inst_founding_date", formDate(admin.inst_founding_date));
-          setValue("inst_eiin", admin.inst_eiin);
-      } else {
-        setValue("inst_name", "");
-          setValue("inst_phone", "");
-          setValue("inst_address", "");
-          setValue("inst_email", "");
-          setValue("inst_founding_date", "");
-          setValue("inst_eiin", "");
-      }
-      setIsData(true)
-  }, [setValue, admin]);
+
 
   return (
     <>

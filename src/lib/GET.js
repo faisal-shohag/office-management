@@ -1,7 +1,7 @@
 // import axios from "axios";
 
-const api_key = import.meta.env.VITE_apiKey;
-
+const api_key = import.meta.env.VITE_serverKey;
+console.log(api_key)
 
 const getData = (url) => {
     return fetch(api_key + url, {

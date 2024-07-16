@@ -19,7 +19,7 @@ import Loading from "@/components/app_components/Loading";
 import Alert from "@/components/app_components/Alert";
 import { Input } from "@/components/ui/input";
 
-const api_key = import.meta.env.VITE_apiKey;
+const api_key = import.meta.env.VITE_serverKey;
 
 export default function Students() {
   const [students, setStudents] = useState([]);

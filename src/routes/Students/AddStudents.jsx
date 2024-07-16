@@ -45,6 +45,7 @@ import toast from "react-hot-toast";
 import generatePDF, { Margin, usePDF } from "react-to-pdf";
 
 const AddStudents = () => {
+  const api_key = import.meta.env.VITE_serverKey;
   const { register, handleSubmit, setValue, watch } = useForm();
 
   // const [studentCount, setStudentCount] = useState(0);
@@ -71,8 +72,19 @@ const AddStudents = () => {
   const [isWithoutPayment, setisWithoutPayment] = useState(false);
   const [incharge, setIncharge] = useState(null)
 
-  const { admin } = useContext(AuthContext);
-  const api_key = import.meta.env.VITE_apiKey;
+ const [admin, setAdmin] = useState(null)
+ useEffect(() => {
+  fetch(api_key + 'admin', {
+    method: "GET",
+    credentials: "include",
+  }).then((res) => {
+    return res.json();
+  }).then(r=> {
+    setAdmin(r)
+  })
+ }, [])
+
+
   const AdmissionDataSend = (data) => {
     // console.log(data)
     data = {...data, incharge}
